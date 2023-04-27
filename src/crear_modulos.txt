@@ -1,0 +1,15 @@
+nest g mo nombre_modulo
+nest g service nombre_servicio
+nest g co nombre_controler
+
+
+------------------------------
+        const createprecioscomb = {
+            "idcombust": id,
+            "fecha": "2023-04-24",
+            "prelit": dto.prelit,
+            "cia": dto.cia
+        }
+        const preciosomb = this.PreciosCombRepositoy.create(createprecioscomb);
+        this.CombustRepository.save(preciosomb);
+---------------

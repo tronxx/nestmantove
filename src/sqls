@@ -1,0 +1,95 @@
+CREATE TABLE chofer (
+	id  INTEGER NOT NULL primary key AUTO_INCREMENT,
+	codigo VARCHAR(3) NOT NULL,
+	nombre varchar(100),
+	direc varchar(100),
+	idciudad INTEGER NOT NULL,
+	telefono INTEGER NOT NULL,
+	cia SMALLINT NOT NULL,
+    status varchar(1),
+    created_at timestamp,
+	UNIQUE (codigo, cia)
+);
+
+CREATE TABLE cias (
+	cia integer NOT NULL primary key,
+	razon VARCHAR(70),
+	direc VARCHAR(70),
+	direc2 VARCHAR(70),
+	nomfis VARCHAR(70),
+	telefono VARCHAR(70),
+	fax VARCHAR(70),
+	rfc VARCHAR(15),
+    status varchar(1),
+    created_at timestamp
+
+);
+
+create table talleres (
+	id integer not null primary key AUTO_INCREMENT,
+	clave varchar(5) not null,
+	nombre varchar(100),
+	representante varchar(100),
+	direc varchar(100),
+	telefono varchar(100),
+	cia integer not null,
+	giro varchar(20),
+	status varchar(1),
+	fecbaj date,
+	created_at timestamp,
+	unique (clave,cia)
+);
+
+create table almacenes (
+	id integer not null primary key AUTO_INCREMENT,
+	clave varchar(4) not null,
+	nombre varchar(100),
+	direc varchar(100),
+	ciudad varchar(100),
+	estado varchar(100),
+	cia integer not null,
+	status varchar(1),
+	created_at timestamp,
+	unique (clave,cia)
+);
+
+create table marcas (
+	id integer not null primary key AUTO_INCREMENT,
+	marca varchar(30) not null,
+	cia	integer,
+	status varchar(1),
+	created_at timestamp,
+	unique (marca, cia)
+);
+
+create table zonas (
+	id integer not null primary key AUTO_INCREMENT,
+	zona integer not null,
+	nombre varchar(30),
+	cia integer not null,
+	status varchar(1),
+	created_at timestamp,
+	unique (zona, cia)
+);
+
+create table combust (
+	id integer not null  primary key AUTO_INCREMENT,
+	clave varchar(1) not null,
+	descri char(10) not null,
+	prelit double precision,
+	piva double precision,
+	ultcam date,
+	created_at timestamp,
+	status varchar(1),
+	cia integer not null,
+	unique (clave,cia)
+);
+
+create table precioscomb (
+	id integer not null   primary key AUTO_INCREMENT,
+	idcombust integer not null,
+	fecha date,
+	prelit double precision,
+	created_at timestamp,
+	cia integer
+);

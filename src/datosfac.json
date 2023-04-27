@@ -1,0 +1,11 @@
+{
+    "nombre":"Pedrito Fernandez",
+    "direccion": "Calle 12 x 11 y 13 N. 321 Col. Desgracia",
+    "factura": 12,
+    "serie": "FUM",
+    "uuid": "729f4593-e121-4bff-b3d0-1c790329fd04",
+    "vencimientos": [
+        { "letra": 1, "Vence": "2023-03-31" },
+        { "letra": 2, "vence": "2023-04-15" }
+    ]
+}
