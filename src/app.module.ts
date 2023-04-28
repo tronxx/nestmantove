@@ -21,6 +21,12 @@ import { CombustModule } from './combust/combust.module';
 import { Combust } from './combust/entities'
 import { PrecioscombModule } from './precioscomb/precioscomb.module';
 import { Precioscomb} from './precioscomb/entities';
+import { CiudadesModule } from './ciudades/ciudades.module';
+import { Ciudades } from './ciudades/entities';
+import { EstadosModule } from './estados/estados.module';
+import { Estados } from './estados/entities';
+import { VehiculosService } from './vehiculos/vehiculos.service';
+import { VehiculosModule } from './vehiculos/vehiculos.module';
 
 @Module({
   imports: [
@@ -32,7 +38,7 @@ import { Precioscomb} from './precioscomb/entities';
       password: 'password',
       database: 'mantove',
       entities: [Almacenes, Chofer, Cia, Talleres, Marcasveh, 
-        Zonas, Combust, Precioscomb, 
+        Zonas, Combust, Precioscomb, Ciudades, Estados,
          join(__dirname, './**/**/*entity{.ts,.js}')],
       synchronize: true,
     }),
@@ -44,8 +50,11 @@ import { Precioscomb} from './precioscomb/entities';
     ZonasModule,
     CombustModule,
     PrecioscombModule,
+    CiudadesModule,
+    EstadosModule,
+    VehiculosModule,
     ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, VehiculosService],
 })
 export class AppModule {}

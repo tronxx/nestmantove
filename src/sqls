@@ -93,3 +93,57 @@ create table precioscomb (
 	created_at timestamp,
 	cia integer
 );
+
+
+create table ciudades (
+	id integer not null primary key AUTO_INCREMENT,
+	ciudad varchar(100) not null,
+	idestado integer not null,
+	status varchar(1),
+	created_at timestamp,
+	cia integer  not null,
+	unique (ciudad, cia)
+);
+
+create table estados (
+	id integer not null primary key AUTO_INCREMENT,
+	estado varchar(100) not null,
+	status varchar(1),
+	created_at timestamp,
+	cia integer  not null,
+	unique (estado, cia)
+);
+
+create table vehiculo (
+	id integer not null primary key AUTO_INCREMENT,
+	codigo integer not null,
+	descri varchar(100),
+	idmarcaveh integer not null,
+	modelo integer,
+	fecing date,
+	fecbaj date,
+	placas varchar(10),
+	chasis varchar(30),
+	sermot varchar(30),
+	maxtac integer,
+	kilom integer,
+	tacacu integer,
+	nvohasta integer,
+	nvousa char(1),
+	tipogas integer not null,
+	caractm varchar(20),
+	tipollanta varchar(20),
+	bateria varchar(20),
+	polseg varchar(20),
+	venpol date,
+	idchofer integer not null,
+	camtac char(1),
+	kmtcamtac integer,
+	zona integer,
+	moto char(1),
+	fecamtac date,
+	cia integer not null,
+	status varchar(1),
+	created_at timestamp,
+	unique (codigo,cia)
+);
