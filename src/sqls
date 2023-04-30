@@ -114,7 +114,7 @@ create table estados (
 	unique (estado, cia)
 );
 
-create table vehiculo (
+create table vehiculos (
 	id integer not null primary key AUTO_INCREMENT,
 	codigo integer not null,
 	descri varchar(100),
@@ -130,7 +130,7 @@ create table vehiculo (
 	tacacu integer,
 	nvohasta integer,
 	nvousa char(1),
-	tipogas integer not null,
+	idtipogas integer not null,
 	caractm varchar(20),
 	tipollanta varchar(20),
 	bateria varchar(20),
@@ -139,7 +139,7 @@ create table vehiculo (
 	idchofer integer not null,
 	camtac char(1),
 	kmtcamtac integer,
-	zona integer,
+	idzona integer,
 	moto char(1),
 	fecamtac date,
 	cia integer not null,
