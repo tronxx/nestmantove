@@ -42,8 +42,4 @@ export class Combust {
     @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
     createdAt: Date;
 
-    @OneToMany(()=> Precioscomb, (precioscomb ) => precioscomb.combust )
-    @JoinColumn({ name: 'idcombust'})    
-    precioscomb: Precioscomb[];
-  
 }

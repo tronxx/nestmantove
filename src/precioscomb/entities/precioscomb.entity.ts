@@ -31,8 +31,5 @@ export class Precioscomb {
     
     @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
     createdAt: Date;
-
-    @ManyToOne ( () => Combust, (combust) => combust.precioscomb)
-    combust: Combust;
   
 }

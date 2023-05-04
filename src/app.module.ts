@@ -27,6 +27,12 @@ import { EstadosModule } from './estados/estados.module';
 import { Estados } from './estados/entities';
 import { VehiculosModule } from './vehiculos/vehiculos.module';
 import { Vehiculos } from './vehiculos/entities';
+import { ServmantosModule } from './servmantos/servmantos.module';
+import { ServMantos } from './servmantos/entities'
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { Usuarios } from './usuarios/entities';
+import { PoligasModule } from './poligas/poligas.module';
+import { Poligas } from './poligas/entities';
 
 @Module({
   imports: [
@@ -35,10 +41,11 @@ import { Vehiculos } from './vehiculos/entities';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'password',
+      password: '',
       database: 'mantove',
       entities: [Almacenes, Chofer, Cia, Talleres, Marcasveh, 
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
+        ServMantos, Usuarios, Poligas,
          join(__dirname, './**/**/*entity{.ts,.js}')],
       synchronize: true,
     }),
@@ -53,6 +60,9 @@ import { Vehiculos } from './vehiculos/entities';
     CiudadesModule,
     EstadosModule,
     VehiculosModule,
+    ServmantosModule,
+    UsuariosModule,
+    PoligasModule,
     ],
   controllers: [AppController],
   providers: [AppService],

@@ -147,3 +147,56 @@ create table vehiculos (
 	created_at timestamp,
 	unique (codigo,cia)
 );
+
+create table servmantos (
+	id integer not null  primary key AUTO_INCREMENT,
+	clave varchar(10) not null,
+	descri varchar(100),
+	mantoorrepar varchar(1),
+	perio char(1),
+	kmofe char(1),
+	xcada integer,
+	xcadanvo integer,
+	toler integer,
+	toggle char(1),
+	servop varchar(100),
+	motoocam char(1),
+	cia integer not null,
+	idvehiculo integer,
+	status varchar(1),
+	created_at timestamp,
+
+	unique (clave, cia)
+);
+
+create table usuarios (
+	id integer not null primary key AUTO_INCREMENT,
+	login varchar(15) not null,
+	nombre varchar(100) not null,
+	email varchar(100) not null unique,
+	clave varchar(100),
+	maestro varchar(1),
+	numpol varchar(2),
+	iniciales varchar(4) not null,
+	cia integer,
+	status varchar(1),
+	created_at timestamp,
+	unique (cia, login)
+);
+
+create table poligas (
+	id  integer not null  primary key AUTO_INCREMENT,
+	idalmacen integer not null,
+	fecha date not null,
+	status varchar(1),
+	idusuario integer not null,
+	importe double precision,
+	iva double precision,
+	total double precision,
+	promkml double precision,
+	litros double precision,
+	kmts integer,
+	cia integer not null,
+	created_at timestamp,
+	unique (idalmacen,fecha,cia)
+);
