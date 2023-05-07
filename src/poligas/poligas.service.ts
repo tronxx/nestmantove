@@ -9,7 +9,7 @@ export class PoligasService {
 
     constructor (
         @InjectRepository(Poligas)
-        private readonly poligasRepository: Repository<Poligas>
+        private readonly poligasRepository: Repository<Poligas>,
     )
     {}
 
@@ -30,6 +30,11 @@ export class PoligasService {
     async getOne(cia: number, id: number) : Promise<Poligas> {
         const mipoligas = await this.poligasRepository.findOneBy({cia, id});
         if(!mipoligas) throw new NotFoundException ('Poliza de Gasolina Inexistente');
+//        const mirenpogas = await this.renpogasRepository.find( {
+//            where: { idpoligas: id},
+//            order: { conse: 'ASC'}
+//        });
+//        const mipoliza = { poligas: mipoligas, renpogas: mirenpogas }
        return mipoligas;
     }
 

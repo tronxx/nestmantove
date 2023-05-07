@@ -33,6 +33,9 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { Usuarios } from './usuarios/entities';
 import { PoligasModule } from './poligas/poligas.module';
 import { Poligas } from './poligas/entities';
+import { RenpogasController } from './renpogas/renpogas.controller';
+import { RenpogasModule } from './renpogas/renpogas.module';
+import { Renpogas } from './renpogas/entities';
 
 @Module({
   imports: [
@@ -45,7 +48,7 @@ import { Poligas } from './poligas/entities';
       database: 'mantove',
       entities: [Almacenes, Chofer, Cia, Talleres, Marcasveh, 
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
-        ServMantos, Usuarios, Poligas,
+        ServMantos, Usuarios, Poligas, Renpogas,
          join(__dirname, './**/**/*entity{.ts,.js}')],
       synchronize: true,
     }),
@@ -63,6 +66,7 @@ import { Poligas } from './poligas/entities';
     ServmantosModule,
     UsuariosModule,
     PoligasModule,
+    RenpogasModule,
     ],
   controllers: [AppController],
   providers: [AppService],

@@ -200,3 +200,29 @@ create table poligas (
 	created_at timestamp,
 	unique (idalmacen,fecha,cia)
 );
+
+create table renpogas (
+	id  integer not null  primary key AUTO_INCREMENT,
+	idpoligas integer not null,
+	idvehiculo integer not null,
+	kmtant integer,
+	kmtact integer,
+	recorr integer,
+	litros double precision,
+	preciou double precision,
+	idcombust integer not null,
+	idchofer integer not null,
+	idzona integer not null,
+	importe double precision,
+	iva double precision,
+	total double precision,
+	piva double precision,
+	idusuario integer not null,
+	fecnot date,
+	conse integer,
+	kmtacu integer,
+	cia integer,
+	idtipago integer,
+	created_at timestamp
+);
+
