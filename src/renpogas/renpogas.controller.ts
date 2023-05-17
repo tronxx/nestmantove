@@ -16,9 +16,10 @@ export class RenpogasController {
         return await this.renpogasService.getMany(cia, idpoligas);
     }
 
-    @Get(':cia/:id')
+    @Get(':cia/:idpoligas/:id')
     getOne(
         @Param('cia') cia: number,
+        @Param('idpoligas') idpoligas: number,
         @Param('id') id: number
     ) {
         return this.renpogasService.getOne(cia, id);

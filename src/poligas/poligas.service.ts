@@ -54,6 +54,14 @@ export class PoligasService {
     }
 
     async createOne(dto: CreatePoligasDto) {
+        const mioldPoligas =  await this.poligasRepository.findOne({
+            where: {
+                cia: dto.cia,
+                idalmacen: dto.idalmacen,
+                fecha: dto.fecha
+            }
+            });
+        if(mioldPoligas) throw new NotFoundException ('Poliza de Gasolina Ya Existe');
         const mipoligas = this.poligasRepository.create(dto);
         return await this.poligasRepository.save(mipoligas);
 

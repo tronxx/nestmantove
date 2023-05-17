@@ -22,6 +22,14 @@ export class UsuariosController {
         return this.usuariosService.getOne(cia, id);
     }
 
+    @Get(':cia/:login/:password')
+    getbylogin(
+        @Param('login') login: string,
+        @Param('password') pwd: string
+    ) {
+        return this.usuariosService.getbylogin(login, pwd);
+    }
+
     @Post()
     async createOne(
         @Body() dto: CreateUsuariosDto

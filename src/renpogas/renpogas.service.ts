@@ -4,6 +4,7 @@ import { Between, Repository } from 'typeorm';
 import { CreateRenpogasDto, EditRenpogasDto } from './dtos';
 import { Poligas } from '../poligas/entities';
 import { Renpogas } from './entities';
+import { Vehiculos } from '../vehiculos/entities';
 
 @Injectable()
 export class RenpogasService {
@@ -11,6 +12,8 @@ export class RenpogasService {
     constructor (
         @InjectRepository(Poligas)
         private readonly poligasRepository: Repository<Poligas>,
+        @InjectRepository(Vehiculos)
+        private readonly vehiculoRepository: Repository<Vehiculos>,
         @InjectRepository(Renpogas)
         private readonly renpogasRepository: Repository<Renpogas>
 
@@ -45,6 +48,12 @@ export class RenpogasService {
             idvehiculo : miRenpogas.idvehiculo
         }
         const modifpoligas = await this.updatepoligas(datospoligas);
+        const datosrenpogas = {
+            idvehiculo : miRenpogas.idvehiculo,
+            kmtact : miRenpogas.kmtact,
+            recorre : dto.recorr - miRenpogas.recorr
+        }
+        const modifvehiculo = await this.updatevehiculo(datosrenpogas);
         const editedRenpogas = Object.assign(miRenpogas, dto);
         return await this.renpogasRepository.update(id, editedRenpogas);
 
@@ -61,6 +70,16 @@ export class RenpogasService {
         const poligas = this.poligasRepository.update(id, mipoligas);
         return (poligas);
     }
+
+    async updatevehiculo(datosrenpogas: any) {
+        const id = datosrenpogas.idvehiculo;
+        const mivehiculo = await this.vehiculoRepository.findOneBy({id});
+        mivehiculo.kilom = datosrenpogas.kmtact;
+        mivehiculo.tacacu += datosrenpogas.recorre;
+        const vehiculo = this.vehiculoRepository.update(id, mivehiculo);
+        return (vehiculo);
+    }
+
 
     async deleteOne(id: number) {
         const miRenpogas = await this.renpogasRepository.findOneBy({id});
@@ -93,6 +112,13 @@ export class RenpogasService {
             idvehiculo : miRenpogas.idvehiculo
         }
         const modifpoligas = await this.updatepoligas(datospoligas);
+        const datosrenpogas = {
+            idvehiculo : miRenpogas.idvehiculo,
+            kmtact : miRenpogas.kmtact,
+            recorre : miRenpogas.recorr
+        }
+        const modifvehiculo = await this.updatevehiculo(datosrenpogas);
+
         return await this.renpogasRepository.save(miRenpogas);
 
     }

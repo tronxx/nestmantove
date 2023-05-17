@@ -226,3 +226,36 @@ create table renpogas (
 	created_at timestamp
 );
 
+create table poliserv (
+	id  integer not null  primary key AUTO_INCREMENT,
+	idalmacen integer not null,
+	fecha date not null,
+	status char(1),
+	idusuario integer not null,
+	importe double precision,
+	iva double precision,
+	total double precision,
+	cia integer not null,
+	created_at timestamp,
+	unique (idalmacen,fecha,cia)
+);
+
+
+create table renposerv (
+	id  integer not null  primary key AUTO_INCREMENT,
+	idpoliserv  integer not null,
+	idvehiculo integer not null,
+	fecha date,
+	conse integer,
+	idservmanto integer not null,
+	kilom integer not null,
+	edotoggle char(1),
+	idtalleraut integer not null,
+	observ varchar(200),
+	costo double precision,
+	idchofer integer not null,
+	idusuario integer not null,
+	cia integer not null,
+	created_at timestamp
+);
+

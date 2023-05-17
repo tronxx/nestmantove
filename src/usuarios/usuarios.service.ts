@@ -23,6 +23,18 @@ export class UsuariosService {
        return miusuario;
     }
 
+    async getbylogin(login: string, pwd: string) : Promise<Usuarios> {
+        const miusuario =  await this.usuariosRepository.findOne({
+            where: {
+                email: login,
+                clave: pwd
+            }
+            });
+        if(!miusuario) throw new NotFoundException ('Usuario Inexistente');
+        miusuario.clave = "xx"
+       return miusuario;
+    }
+
     async editOne(id: number, dto: EditUsuariosDto) {
         const miusuario = await this.usuariosRepository.findOneBy({id});
         if(!miusuario) throw new NotFoundException ('Usuario Inexistente');
