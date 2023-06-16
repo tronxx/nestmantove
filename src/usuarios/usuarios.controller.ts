@@ -30,6 +30,15 @@ export class UsuariosController {
         return this.usuariosService.getbylogin(login, pwd);
     }
 
+    @Get(':cia/:login/:password/:existe')
+    existelogin(
+        @Param('login') login: string
+    ) {
+        return this.usuariosService.existelogin(login);
+    }
+
+
+
     @Post()
     async createOne(
         @Body() dto: CreateUsuariosDto

@@ -23,6 +23,9 @@ export class CreateUsuariosDto {
     @IsString()
     iniciales: string;
 
+    @IsString()
+    padre: string;
+
     @IsInt()
     cia: number;
 

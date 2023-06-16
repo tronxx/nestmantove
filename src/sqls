@@ -176,6 +176,7 @@ create table usuarios (
 	email varchar(100) not null unique,
 	clave varchar(100),
 	maestro varchar(1),
+	padre varchar(100),
 	numpol varchar(2),
 	iniciales varchar(4) not null,
 	cia integer,

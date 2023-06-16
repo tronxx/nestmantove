@@ -21,6 +21,13 @@ export class CiasController {
         return this.ciaService.getOne(cia);
     }
 
+    @Get(':cia/:rfc')
+    findbyrfc(
+        @Param('rfc') rfc: string
+    ) {
+        return this.ciaService.busca_rfc_cia(rfc);
+    }
+
     @Post()
     async createOne(
         @Body() dto: CreateCiaDto

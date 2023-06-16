@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUsuariosDto, EditUsuariosDto } from './dtos';
@@ -51,9 +51,42 @@ export class UsuariosService {
     }
 
     async createOne(dto: CreateUsuariosDto) {
+        const login = dto.login;
+        const email = dto.email;
+        const iniciales = dto.iniciales;
+        const miusuario1 = await this.usuariosRepository.findOneBy({login});
+        if(miusuario1) throw new NotAcceptableException ('Ya Existe el Login');
+        const miusuario2 = await this.usuariosRepository.findOneBy({email});
+        if(miusuario2) throw new NotAcceptableException ('Ya Existe el email');
+        const miusuario3 = await this.usuariosRepository.findOneBy({iniciales});
+        if(miusuario3) throw new NotAcceptableException ('Ya Existen las Iniciales');
+
         const miusuario = this.usuariosRepository.create(dto);
         return await this.usuariosRepository.save(miusuario);
 
+    }
+
+    async existelogin(email: string) : Promise<any> {
+        const miusuario = await this.usuariosRepository.findOneBy({email});
+        if(!miusuario) {
+            const respu = {
+                id: -1,
+                nombre: "-1",
+                found: false,
+                status: "Usuario Inexistente"
+            }
+            return (respu);
+        } else {
+            const respu = {
+                id: miusuario.id,
+                nombre: miusuario.nombre,
+                found: true,
+                status: "Usuario Ya Existe"
+
+            }
+            return (respu);
+
+        }
     }
 
 }

@@ -27,13 +27,16 @@ export class Usuarios {
     @Column({type: 'varchar', length:100})
     email: string;
 
+    @Column({type: 'varchar', length:100})
+    padre: string;
+
     @Column({type: 'varchar', length:1})
     maestro: string;
 
     @Column({type: 'varchar', length:2})
     numpol: string;
 
-    @Column({type: 'varchar', length:4})
+    @Column({type: 'varchar', length:10})
     iniciales: string;
 
     @Column({type: 'integer'})

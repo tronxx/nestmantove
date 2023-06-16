@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCiaDto, EditCiaDto } from './dtos';
@@ -39,10 +39,35 @@ export class CiaService {
     }
 
     async createOne(dto: CreateCiaDto) {
+        const rfc = dto.rfc;
+        const micia1 = await this.ciaRepository.findOneBy({rfc});
+        if(micia1) throw new NotAcceptableException ('Ya existe ese RFC de la Compañía');
         const micia = this.ciaRepository.create(dto);
         return await this.ciaRepository.save(micia);
 
     }
 
+    async busca_rfc_cia(rfc : string) {
+        const micia1 = await this.ciaRepository.findOneBy({rfc});
+        if(!micia1) {
+            const respu = {
+                id: -1,
+                nombre: "-1",
+                found: false,
+                status: "Comnpañía Inexistente"
+            }
+            return (respu);
+        } else {
+            const respu = {
+                id: micia1.cia,
+                nombre: micia1.razon,
+                found: true,
+                status: "Compañía Ya Existe"
+
+            }
+            return (respu);
+
+        }
+    }
 
 }
