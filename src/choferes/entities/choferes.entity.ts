@@ -23,8 +23,8 @@ export class Chofer {
     @Column({type: 'varchar', length:100})
     direc: string;
 
-    @Column({type: 'integer'})
-    idciudad: number;
+    @Column({type: 'varchar', length:100})
+    ciudad: string;
 
     @Column({type: 'varchar', length:100})
     telefono: string;

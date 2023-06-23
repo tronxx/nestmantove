@@ -14,8 +14,8 @@ export class CreateChoferDto {
     @IsString()
     telefono: string;
 
-    @IsInt()
-    idciudad: number;
+    @IsString()
+    ciudad: string;
 
     @IsInt()
     cia: number;

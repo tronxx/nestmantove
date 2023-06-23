@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable,  NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateChoferDto, EditChoferDto } from './dtos';
@@ -39,13 +39,17 @@ export class ChoferesService {
     }
 
     async createOne(dto: CreateChoferDto) {
+        let codigo = dto.codigo;
+        let cia = dto.cia;
+        const xchofer = await this.choferesRepository.findOneBy({codigo, cia});
+        if(xchofer) {
+            throw new NotAcceptableException ('Ya existe ese Chofer');
+            return;
+        }
+
         const chofer = this.choferesRepository.create(dto);
         return await this.choferesRepository.save(chofer);
 
     }
 
-
-    async updateChofer(){
-        this.choferesRepository.update({id: 1}, { nombre: "sotanito" })
-    }
 }
