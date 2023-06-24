@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateMarcasvehDto, EditMarcasvehDto } from './dtos';
@@ -43,7 +43,15 @@ export class  MarcasvehService {
     }
 
     async createOne(dto: CreateMarcasvehDto) {
-        const marca = this.marcasRepository.create(dto);
+        let xmarca = dto.marca;
+        let cia = dto.cia;
+        const xcombust = await this.marcasRepository.findOneBy({marca: xmarca, cia});
+        if(xcombust) {
+            throw new NotAcceptableException ('Ya existe esa clave de Marca');
+            return;
+        }
+        
+        let marca = this.marcasRepository.create(dto);
         return await this.marcasRepository.save(marca);
 
     }

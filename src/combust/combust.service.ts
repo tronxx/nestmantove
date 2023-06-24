@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { CreateCombustDto, EditCombustDto } from './dtos';
@@ -49,6 +49,14 @@ export class CombustService {
     }
 
     async createOne(dto: CreateCombustDto) {
+        let clave = dto.clave;
+        let cia = dto.cia;
+        const xcombust = await this.CombustRepository.findOneBy({clave, cia});
+        if(xcombust) {
+            throw new NotAcceptableException ('Ya existe esa clave de Combustible');
+            return;
+        }
+
         const combust = this.CombustRepository.create(dto);
         const minvocomb = await this.CombustRepository.save(combust);
         this.createPreciosComb(minvocomb);

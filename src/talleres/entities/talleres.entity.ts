@@ -34,7 +34,7 @@ export class Talleres {
     @Column({type: 'integer'})
     cia: number;
 
-    @Column({type: 'varchar', length:20})
+    @Column({type: 'varchar', length:100})
     giro: string;
 
     @Column({type: 'varchar', length:1})

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTalleresDto, EditTalleresDto } from './dtos';
@@ -39,6 +39,14 @@ export class TalleresService {
     }
 
     async createOne(dto: CreateTalleresDto) {
+        let clave = dto.clave;
+        let cia = dto.cia;
+        const xtaller = await this.talleresRepository.findOneBy({clave, cia});
+        if(xtaller) {
+            throw new NotAcceptableException ('Ya existe ese Taller');
+            return;
+        }
+
         const micia = this.talleresRepository.create(dto);
         return await this.talleresRepository.save(micia);
 
