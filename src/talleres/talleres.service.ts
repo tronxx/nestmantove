@@ -14,7 +14,13 @@ export class TalleresService {
     {}
 
     async getMany(cia: number) :Promise < Talleres []>  {
-        return await this.talleresRepository.findBy({cia});
+        return await this.talleresRepository.find(
+            {
+                where: { cia : cia},
+                order: { clave: "ASC"}
+            }
+        );
+        //return await this.talleresRepository.findBy({cia});
     }
 
     async getOne(cia: number, id: number) : Promise<Talleres> {

@@ -27,7 +27,7 @@ export class RenpogasService {
         });
     }
 
-
+    
     async getOne(cia: number, id: number) : Promise<Renpogas> {
         const miRenpogas = await this.renpogasRepository.findOneBy({cia, id});
         if(!miRenpogas) throw new NotFoundException ('Poliza de Gasolina Inexistente');

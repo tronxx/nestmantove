@@ -18,7 +18,12 @@ export class AlmacenesService {
     }
 
     async getManyCia(cia:number) :Promise <Almacenes[]>  {
-        return await this.almacenesRepository.findBy({cia})
+        return await this.almacenesRepository.find(
+            {
+                where: { cia : cia},
+                order: { clave: "ASC"}
+            }
+        );
     }
 
     async getOne(cia: number, id: number) : Promise<Almacenes> {

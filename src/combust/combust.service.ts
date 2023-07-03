@@ -22,7 +22,12 @@ export class CombustService {
     {}
 
     async getMany(cia: number) :Promise <Combust[]>  {
-        return await this.CombustRepository.findBy({cia});
+        return await this.CombustRepository.find(
+            {
+                where: { cia : cia},
+                order: { clave: "ASC"}
+            }
+        );
     }
 
     async getOne(cia:number, id: number) : Promise<Combust> {
@@ -71,7 +76,7 @@ export class CombustService {
         newprecioscomb.idcombust = combust.id;
         newprecioscomb.cia = combust.cia;
         newprecioscomb.fecha =  strfecha;
-        console.log("Fecha", strfecha);
+        // console.log("Fecha", strfecha);
        
         newprecioscomb.prelit = combust.prelit;
         const data =  await this.precioscombRepo.save(newprecioscomb);

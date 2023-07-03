@@ -14,7 +14,12 @@ export class ChoferesService {
     {}
 
     async getMany(cia: number) :Promise <Chofer[]>  {
-        return await this.choferesRepository.findBy({cia});
+        return await this.choferesRepository.find(
+            {
+                where: { cia : cia},
+                order: { codigo: "ASC"}
+            }
+        );
     }
 
     async getOne(cia:number, id: number) : Promise<Chofer> {

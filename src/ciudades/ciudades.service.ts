@@ -15,7 +15,12 @@ export class CiudadesService {
     {}
 
     async getMany(cia: number) :Promise <Ciudades[]>  {
-        return await this.CiudadesesRepository.findBy({cia});
+        return await this.CiudadesesRepository.find(
+            {
+                where: { cia : cia},
+                order: { ciudad: "ASC"}
+            }
+        );
     }
 
     async getOne(cia:number, id: number) : Promise<Ciudades> {
@@ -27,7 +32,7 @@ export class CiudadesService {
     async editOne(id: number, dto: EditCiudadesDto) {
         const ciudad = await this.CiudadesesRepository.findOneBy({id});
         if(!ciudad) throw new NotFoundException ('Ciudad Inexistente');
-        const editedCiudades = Object.assign(Ciudades, dto);
+        const editedCiudades = Object.assign(ciudad, dto);
         return await this.CiudadesesRepository.update(id, editedCiudades);
 
     }

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Marcasveh } from 'src/marcasveh/entities';
+import { Repository, DataSource } from 'typeorm';
 import { CreateVehiculosDto, EditVehiculosDto } from './dtos';
 import { Vehiculos } from './entities';
 
@@ -16,6 +17,25 @@ export class VehiculosService {
     async getMany(cia: number) :Promise < Vehiculos []>  {
         return await this.vehiculosRepository.findBy({cia});
     }
+
+    async getCompleto(cia: number) : Promise <any> {
+        //const query = await this.vehiculosRepository.createQueryBuilder('a')
+      
+      //.innerJoinAndMapOne("a.idmarcaveh", Marcasveh, 'b', 'a.idmarca  = b.id ')
+      //.where("a.cia = :micia", {micia:cia});
+      
+
+        const query = await this.vehiculosRepository.createQueryBuilder('a')
+        .select(['a.*','marca'])
+        //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .leftJoin(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .where("a.cia = :micia", {micia:cia})
+
+        const respu =  await query.getRawMany();
+        console.log(query.getSql(), "respu:", respu);
+        return (respu);
+    }
+
 
     async getOne(cia: number, id: number) : Promise<Vehiculos> {
         const vehiculo = await this.vehiculosRepository.findOneBy({cia, id});

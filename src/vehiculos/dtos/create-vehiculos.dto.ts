@@ -86,5 +86,4 @@ export class CreateVehiculosDto {
     @IsString()
     status: string;
 
-
 }

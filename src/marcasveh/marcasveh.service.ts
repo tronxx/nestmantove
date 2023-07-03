@@ -15,10 +15,18 @@ export class  MarcasvehService {
 
     async getMany() :Promise <Marcasveh[]>  {
         return await this.marcasRepository.find();
+
     }
 
     async getManyCia(cia:number) :Promise <Marcasveh[]>  {
-        return await this.marcasRepository.findBy({cia})
+        //return await this.marcasRepository.findBy({cia})
+        return await this.marcasRepository.find(
+            {
+                where: { cia : cia},
+                order: { marca: "ASC"}
+            }
+        );
+
     }
 
     async getOne(cia: number, id: number) : Promise<Marcasveh> {
@@ -27,13 +35,21 @@ export class  MarcasvehService {
        return marca;
     }
 
-    async editOne(id: number, dto: EditMarcasvehDto) {
+    async xeditOne(id: number, dto: EditMarcasvehDto) {
         const marca = await this.marcasRepository.findOneBy({id});
         if(!marca) throw new NotFoundException ('Marca Inexistente');
         const editedMarca = Object.assign(marca, dto);
         return await this.marcasRepository.update(id, editedMarca);
 
     }
+
+    async editOne(id: number, dto: EditMarcasvehDto) {
+        const marca = await this.marcasRepository.findOneBy({id});
+        if(!marca) throw new NotFoundException ('Marca Inexistente');
+        const editedMarca = Object.assign(marca, dto);
+        return await this.marcasRepository.update(id, editedMarca);
+
+    }    
 
     async deleteOne(id: number) {
         const marca = await this.marcasRepository.findOneBy({id});

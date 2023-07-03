@@ -1,9 +1,11 @@
+import { Marcasveh } from 'src/marcasveh/entities';
 import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
     CreateDateColumn,
     ManyToOne,
+    OneToOne,
     JoinColumn,
     UpdateDateColumn,
     PrimaryColumn
@@ -101,5 +103,5 @@ export class Vehiculos {
     
     @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
     createdAt: Date;
-  
+
 }

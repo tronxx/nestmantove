@@ -18,7 +18,12 @@ export class  ServmantosService {
     }
 
     async getManyCia(cia:number) :Promise <ServMantos[]>  {
-        return await this.ervmantosRepository.findBy({cia})
+        return await this.ervmantosRepository.find(
+            {
+                where: { cia : cia},
+                order: { clave: "ASC"}
+            }
+        );
     }
 
     async getOne(cia: number, id: number) : Promise<ServMantos> {
