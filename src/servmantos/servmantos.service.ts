@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateServMantoDto, EditServMantosDto } from './dtos';
@@ -9,16 +9,16 @@ export class  ServmantosService {
 
     constructor (
         @InjectRepository(ServMantos)
-        private readonly ervmantosRepository: Repository<ServMantos>
+        private readonly servmantosRepository: Repository<ServMantos>
     )
     {}
 
     async getMany() :Promise <ServMantos[]>  {
-        return await this.ervmantosRepository.find();
+        return await this.servmantosRepository.find();
     }
 
     async getManyCia(cia:number) :Promise <ServMantos[]>  {
-        return await this.ervmantosRepository.find(
+        return await this.servmantosRepository.find(
             {
                 where: { cia : cia},
                 order: { clave: "ASC"}
@@ -27,29 +27,37 @@ export class  ServmantosService {
     }
 
     async getOne(cia: number, id: number) : Promise<ServMantos> {
-        const servmanto = await this.ervmantosRepository.findOneBy({cia, id});
+        const servmanto = await this.servmantosRepository.findOneBy({cia, id});
         if(!servmanto) throw new NotFoundException ('Servicio Inexistente');
        return servmanto;
     }
 
     async editOne(id: number, dto: EditServMantosDto) {
-        const servmanto = await this.ervmantosRepository.findOneBy({id});
+        const servmanto = await this.servmantosRepository.findOneBy({id});
         if(!servmanto) throw new NotFoundException ('Servicio Inexistente');
         const editedServmnto  = Object.assign(servmanto, dto);
-        return await this.ervmantosRepository.update(id, editedServmnto);
+        return await this.servmantosRepository.update(id, editedServmnto);
 
     }
 
     async deleteOne(id: number) {
-        const servmanto = await this.ervmantosRepository.findOneBy({id});
+        const servmanto = await this.servmantosRepository.findOneBy({id});
         if(!servmanto) throw new NotFoundException ('Servicio Inexistente');
-        return await this.ervmantosRepository.delete(id);
+        return await this.servmantosRepository.delete(id);
 
     }
 
     async createOne(dto: CreateServMantoDto) {
-        const servmanto = this.ervmantosRepository.create(dto);
-        return await this.ervmantosRepository.save(servmanto);
+        let clave = dto.clave;
+        let cia = dto.cia;
+
+        const xservmanto = await this.servmantosRepository.findOneBy({cia, clave});
+        if(xservmanto)  { 
+            throw new NotAcceptableException ('Servicio ya Existe');
+            return;
+        }
+        const servmanto = this.servmantosRepository.create(dto);
+        return await this.servmantosRepository.save(servmanto);
 
     }
 }

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Marcasveh } from 'src/marcasveh/entities';
 import { Repository, DataSource } from 'typeorm';
@@ -15,7 +15,13 @@ export class VehiculosService {
     {}
 
     async getMany(cia: number) :Promise < Vehiculos []>  {
-        return await this.vehiculosRepository.findBy({cia});
+        return await this.vehiculosRepository
+        .find(
+            {
+                where: { cia : cia},
+                order: { codigo: "ASC"}
+            }
+        );
     }
 
     async getCompleto(cia: number) : Promise <any> {
@@ -59,6 +65,13 @@ export class VehiculosService {
     }
 
     async createOne(dto: CreateVehiculosDto) {
+        let codigo = dto.codigo;
+        let cia = dto.cia;
+        const xtaller = await this.vehiculosRepository.findOneBy({codigo, cia});
+        if(xtaller) {
+            throw new NotAcceptableException ('Ya existe ese Vehiculo');
+            return;
+        }
         const vehiculo = this.vehiculosRepository.create(dto);
         return await this.vehiculosRepository.save(vehiculo);
 
