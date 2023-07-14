@@ -148,6 +148,15 @@ create table vehiculos (
 	unique (codigo,cia)
 );
 
+create table servmantosxvehiculo (
+	id integer not null  primary key AUTO_INCREMENT,
+	idservmanto	integer,
+	idvehiculo integer,
+	xcada		integer,
+	cia			integer
+
+);
+
 create table servmantos (
 	id integer not null  primary key AUTO_INCREMENT,
 	clave varchar(10) not null,

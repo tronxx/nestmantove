@@ -1,15 +1,17 @@
 import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateServMantoDto, EditServMantosDto } from './dtos';
-import { ServMantos } from './entities';
+import { Any, Repository } from 'typeorm';
+import { CreateServMantoDto, EditServMantosDto, CreateMantoxVehiculoDto } from './dtos';
+import { ServMantos, ServmantosxVehiculo } from './entities';
  
 @Injectable()
 export class  ServmantosService {
 
     constructor (
         @InjectRepository(ServMantos)
-        private readonly servmantosRepository: Repository<ServMantos>
+        private readonly servmantosRepository: Repository<ServMantos>,
+        @InjectRepository(ServmantosxVehiculo)
+        private readonly servmantoxvehiRepository: Repository <ServmantosxVehiculo>
     )
     {}
 
@@ -57,7 +59,36 @@ export class  ServmantosService {
             return;
         }
         const servmanto = this.servmantosRepository.create(dto);
-        return await this.servmantosRepository.save(servmanto);
-
+        const minvoservmanto = await this.servmantosRepository.save(servmanto);
+        return minvoservmanto;
     }
+
+   async createServMantosxVehi(idservmanto:number, servmantosxvehi: any[]) {
+         
+        let mantosxvehi: any[] = [];
+        const query = await this.servmantoxvehiRepository.createQueryBuilder('a')
+        .delete()
+        .where("idservmanto= :idservmanto", {idservmanto})
+        .execute();
+
+        for(let miservxvehi of servmantosxvehi) {
+            const minvosrvxvehi = {
+                idvehiculo: miservxvehi.idvehiculo,
+                idservmanto: miservxvehi.idservmanto,
+                xcada: miservxvehi.xcada,
+                cia: miservxvehi.cia
+            }
+            const minvoservmanto = await this.createMantoServixVehiculo(minvosrvxvehi);
+            //console.log('Agregado:', minvoservmanto);
+            
+            mantosxvehi.push(minvoservmanto);
+        }
+        return mantosxvehi;
+    }
+
+    async createMantoServixVehiculo(dto: CreateMantoxVehiculoDto) {
+        const servmantoxvehi = this.servmantoxvehiRepository.create(dto);
+        return await this.servmantoxvehiRepository.save(servmantoxvehi);
+    }
+
 }

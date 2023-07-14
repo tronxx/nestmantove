@@ -29,6 +29,15 @@ export class ServmantosController {
         return this.servmantosService.createOne(dto);
     }
 
+    @Post(':idservmanto')
+    async create_particularidades (
+        @Param('idservmanto') idservmanto:number,
+        @Body() dto: any
+    )
+    {
+        return this.servmantosService.createServMantosxVehi(idservmanto, dto);
+    }
+
     @Put(':id')
     editOne(
         @Param('id') id: number,

@@ -29,6 +29,7 @@ import { VehiculosModule } from './vehiculos/vehiculos.module';
 import { Vehiculos } from './vehiculos/entities';
 import { ServmantosModule } from './servmantos/servmantos.module';
 import { ServMantos } from './servmantos/entities'
+import { ServmantosxVehiculo } from './servmantos/entities'
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { Usuarios } from './usuarios/entities';
 import { PoligasModule } from './poligas/poligas.module';
@@ -53,7 +54,8 @@ import { Renposerv } from './renposerv/entities';
       database: 'mantove',
       entities: [Almacenes, Chofer, Cia, Talleres, Marcasveh, 
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
-        ServMantos, Usuarios, Poligas, Renpogas, Poliserv, Renposerv,
+        ServMantos, ServmantosxVehiculo, Usuarios, Poligas, Renpogas, 
+        Poliserv, Renposerv,
          join(__dirname, './**/**/*entity{.ts,.js}')],
       synchronize: true,
     }),
