@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Almacenes } from 'src/almacenes/entities';
 import { Between, Repository } from 'typeorm';
 import { CreatePoligasDto, EditPolizasDto } from './dtos';
 import { Poligas } from './entities';
@@ -17,7 +18,26 @@ export class PoligasService {
         return await this.poligasRepository.findBy({cia});
     }
 
-    async getManyxFecha(cia: number, fechaini: string, fechafin: string) :Promise < Poligas []>  {
+    async getManyxFecha(cia: number, fechaini: string, fechafin: string) :Promise < any >  {
+        //const query = await this.vehiculosRepository.createQueryBuilder('a')
+      
+      //.innerJoinAndMapOne("a.idmarcaveh", Marcasveh, 'b', 'a.idmarca  = b.id ')
+      //.where("a.cia = :micia", {micia:cia});
+      
+
+        const query = await this.poligasRepository.createQueryBuilder('a')
+        .select(['a.*','clave','nombre'])
+        //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .leftJoin(Almacenes, 'b', 'a.idalmacen = b.id')
+        .where("a.cia = :micia and a.fecha between :fechaini and :fechafin", {micia:cia, fechaini: fechaini, fechafin: fechafin})
+        .orderBy( {fecha: 'ASC'})
+        const respu =  await query.getRawMany();
+        //console.log(query.getSql(), "respu:", respu);
+        return (respu);
+    }
+
+
+    async xgetManyxFecha(cia: number, fechaini: string, fechafin: string) :Promise < Poligas []>  {
         return await this.poligasRepository.find({
                 where: {
                     cia: cia,

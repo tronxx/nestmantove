@@ -28,6 +28,15 @@ export class  ServmantosService {
         );
     }
 
+    async getManyMantosxVehi(idservmanto:number) :Promise <ServmantosxVehiculo[]>  {
+        return await this.servmantoxvehiRepository.find(
+            {
+                where: { idservmanto : idservmanto},
+                order: { idvehiculo: "ASC"}
+            }
+        );
+    }
+
     async getOne(cia: number, id: number) : Promise<ServMantos> {
         const servmanto = await this.servmantosRepository.findOneBy({cia, id});
         if(!servmanto) throw new NotFoundException ('Servicio Inexistente');

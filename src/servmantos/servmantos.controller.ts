@@ -22,6 +22,17 @@ export class ServmantosController {
         return this.servmantosService.getOne(cia, id);
     }
 
+    @Get(':cia/:id/:idservmanto')
+    getServmantoxvehi(
+        @Param('cia') cia: number,
+        @Param('id') id: number,
+        @Param('idservmanto') idservmanto: number
+
+    ) {
+        return this.servmantosService.getManyMantosxVehi(idservmanto);
+    }
+
+
     @Post()
     async createOne(
         @Body() dto: CreateServMantoDto

@@ -6,13 +6,14 @@ import {
     ManyToOne,
     JoinColumn,
     UpdateDateColumn,
-    PrimaryColumn
+    PrimaryColumn,
+    BaseEntity
   } from 'typeorm';
 
 @Entity('servmantosxvehiculo')
 
-export class ServmantosxVehiculo  {
-    @PrimaryGeneratedColumn()
+export class ServmantosxVehiculo extends BaseEntity {
+    @PrimaryGeneratedColumn('increment')
     id: number;
 
     @Column({type: 'integer'})

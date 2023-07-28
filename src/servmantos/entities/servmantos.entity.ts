@@ -6,12 +6,18 @@ import {
     ManyToOne,
     JoinColumn,
     UpdateDateColumn,
-    PrimaryColumn
+    PrimaryColumn,
+    BaseEntity,
+    OneToMany,
+    OneToOne,
+    JoinTable
   } from 'typeorm';
+
+  import { ServmantosxVehiculo } from './sermvantosxvehiculos.entity';
 
 @Entity('servmantos')
 
-export class ServMantos  {
+export class ServMantos extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -57,5 +63,16 @@ export class ServMantos  {
 
     @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
     createdAt: Date;
-  
+
+    // @OneToMany(
+    //   type => ServmantosxVehiculo,
+    //   servmantosxveh => servmantosxveh.idservmanto,
+    //   { cascade: true, 
+    //     eager: true 
+    //   },
+    // )
+    // @JoinTable({name: 'servmantosxvehiculo'})
+    // servmantosxveh: ServmantosxVehiculo[];
+    
 }
+

@@ -5,6 +5,9 @@ import { CreateRenpogasDto, EditRenpogasDto } from './dtos';
 import { Poligas } from '../poligas/entities';
 import { Renpogas } from './entities';
 import { Vehiculos } from '../vehiculos/entities';
+import { Chofer } from '../choferes/entities';
+import { Combust } from '../combust/entities';
+import { Zonas } from '../zonas/entities';
 
 @Injectable()
 export class RenpogasService {
@@ -19,6 +22,32 @@ export class RenpogasService {
 
     )
     {}
+
+    async getManyxRenpogas(cia: number, idpoligas: number) :Promise < any >  {
+        //const query = await this.vehiculosRepository.createQueryBuilder('a')
+      
+      //.innerJoinAndMapOne("a.idmarcaveh", Marcasveh, 'b', 'a.idmarca  = b.id ')
+      //.where("a.cia = :micia", {micia:cia});
+      
+
+        const query = await this.renpogasRepository.createQueryBuilder('a')
+        .select(['a.*','b.codigo as codigovehiculo',
+        'b.nombre as nombrevehiculo',
+        'c.clave as clavegas',
+        'd.codigo as codigochofer',
+        'e.nombre as nombrezona'
+        ])
+        //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .leftJoin(Vehiculos, 'b', 'a.idvehiculo = b.id')
+        .leftJoin(Combust, 'c', 'a.idcombust = c.id')
+        .leftJoin(Chofer, 'd', 'a.idchofer = d.id')
+        .leftJoin(Zonas, 'e', 'a.idzona = d.id')
+        .where("a.idpoligas = :idpoligas ", {idpoligas:idpoligas})
+        .orderBy( {conse: 'ASC'})
+        const respu =  await query.getRawMany();
+        //console.log(query.getSql(), "respu:", respu);
+        return (respu);
+    }
 
     async getMany(cia: number, idpoligas: number) :Promise < Renpogas []>  {
         return await this.renpogasRepository.find( {
