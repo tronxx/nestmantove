@@ -47,7 +47,24 @@ export class PoligasService {
         });
     }
 
-    async getOne(cia: number, id: number) : Promise<Poligas> {
+    async getOne(cia: number, id: number) :Promise < any >  {
+        //const query = await this.vehiculosRepository.createQueryBuilder('a')
+      
+      //.innerJoinAndMapOne("a.idmarcaveh", Marcasveh, 'b', 'a.idmarca  = b.id ')
+      //.where("a.cia = :micia", {micia:cia});
+      
+
+        const query = await this.poligasRepository.createQueryBuilder('a')
+        .select(['a.*','clave','nombre'])
+        //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .leftJoin(Almacenes, 'b', 'a.idalmacen = b.id')
+        .where("a.id = :id ", {id:id})
+        const respu =  await query.getRawOne();
+        //console.log(query.getSql(), "respu:", respu);
+        return (respu);
+    }
+
+    async xgetOne(cia: number, id: number) : Promise<Poligas> {
         const mipoligas = await this.poligasRepository.findOneBy({cia, id});
         if(!mipoligas) throw new NotFoundException ('Poliza de Gasolina Inexistente');
 //        const mirenpogas = await this.renpogasRepository.find( {

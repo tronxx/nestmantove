@@ -42,6 +42,7 @@ import { PoliservModule } from './poliserv/poliserv.module';
 import { Poliserv } from './poliserv/entities';
 import { RenposervModule } from './renposerv/renposerv.module';
 import { Renposerv } from './renposerv/entities';
+import { AccesoriosModule } from './accesorios/accesorios.module';
 
 @Module({
   imports: [
@@ -76,6 +77,7 @@ import { Renposerv } from './renposerv/entities';
     RenpogasModule,
     PoliservModule,
     RenposervModule,
+    AccesoriosModule,
     ],
   controllers: [AppController],
   providers: [AppService],
