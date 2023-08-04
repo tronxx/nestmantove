@@ -13,7 +13,7 @@ export class RenpogasController {
         @Param('cia') cia: number,
         @Param('idpoligas') idpoligas: number
     ) {
-        return await this.renpogasService.getMany(cia, idpoligas);
+        return await this.renpogasService.getManyxRenpogas(cia, idpoligas);
     }
 
     @Get(':cia/:idpoligas/:id')

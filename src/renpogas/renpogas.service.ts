@@ -32,7 +32,8 @@ export class RenpogasService {
 
         const query = await this.renpogasRepository.createQueryBuilder('a')
         .select(['a.*','b.codigo as codigovehiculo',
-        'b.nombre as nombrevehiculo',
+        'a.recorr / a.litros as rendto',
+        'b.descri as nombrevehiculo',
         'c.clave as clavegas',
         'd.codigo as codigochofer',
         'e.nombre as nombrezona'
@@ -41,7 +42,7 @@ export class RenpogasService {
         .leftJoin(Vehiculos, 'b', 'a.idvehiculo = b.id')
         .leftJoin(Combust, 'c', 'a.idcombust = c.id')
         .leftJoin(Chofer, 'd', 'a.idchofer = d.id')
-        .leftJoin(Zonas, 'e', 'a.idzona = d.id')
+        .leftJoin(Zonas, 'e', 'a.idzona = e.id')
         .where("a.idpoligas = :idpoligas ", {idpoligas:idpoligas})
         .orderBy( {conse: 'ASC'})
         const respu =  await query.getRawMany();
