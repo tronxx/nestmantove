@@ -13,6 +13,7 @@ export class AccesoriosController {
         @Query('modo') modo: string,
         @Query('idcombust') idcombust: number,
         @Query('idvehiculo') idvehiculo: number,
+        @Query('idpoligas') idpoligas: number,
         @Query('fecha') fecha: string,
 
     ): Promise<any> {
@@ -25,6 +26,9 @@ export class AccesoriosController {
         if(modo == "obtenultimokmt") {
             // console.log("modo:", modo, "idvehiculo:", idvehiculo);
             return this.getLatestKmtact(idvehiculo, fecha);
+        }
+        if(modo == "imprimirpoligas") {
+            return this.imprimir_poligas(idpoligas);
         }
   
     }
@@ -42,5 +46,11 @@ export class AccesoriosController {
 
     async getLatestKmtact( idvehiculo: number, fecha: string): Promise<any> {
         return this.accesoriosService.findLatestKmtactByDateAndVehicleId(fecha, idvehiculo);
+    }
+
+    async imprimir_poligas(idpoligas: number): Promise <any> {
+        console.log("Voy a imprimir la poliza de gasolina", idpoligas);
+        
+        return this.accesoriosService.imprimir_poliza(idpoligas);
     }
 }
