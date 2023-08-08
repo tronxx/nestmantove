@@ -1,7 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res } from '@nestjs/common';
+import { Request } from 'express';
+
 import { ApiTags } from '@nestjs/swagger';
 import { stringify } from 'querystring';
 import { AccesoriosService } from './accesorios.service'
+import { Response } from 'express'; // Import the Response object
+import path = require('path');
+import { Observable, of } from 'rxjs';
+import { join } from 'path';
+
 @ApiTags('accesorios')
 @Controller('accesorios')
 export class AccesoriosController {
@@ -15,6 +22,7 @@ export class AccesoriosController {
         @Query('idvehiculo') idvehiculo: number,
         @Query('idpoligas') idpoligas: number,
         @Query('fecha') fecha: string,
+        
 
     ): Promise<any> {
         // console.log("modo:", modo);
@@ -49,8 +57,15 @@ export class AccesoriosController {
     }
 
     async imprimir_poligas(idpoligas: number): Promise <any> {
-        console.log("Voy a imprimir la poliza de gasolina", idpoligas);
+        //console.log("Voy a imprimir la poliza de gasolina", idpoligas);
         
-        return this.accesoriosService.imprimir_poliza(idpoligas);
+        const mipdf = await ( this.accesoriosService.imprimir_poliza(idpoligas));
+        return (mipdf);
     }
+
+
+    @Get(':filename')
+    downloadFile(@Param('filename') filename, @Res() res ): Observable<Object> {
+    return of(res.sendFile(join(process.cwd(), './'+filename)));
+  }
 }

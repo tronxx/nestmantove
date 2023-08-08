@@ -15,6 +15,7 @@ import { Combust } from '../combust/entities';
 import { Vehiculos } from '../vehiculos/entities';
 import { RenpogasService } from '../renpogas/renpogas.service';
 import { PoligasService } from '../poligas/poligas.service';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AccesoriosService {
@@ -154,6 +155,7 @@ export class AccesoriosService {
             { text: 'Compañía de Gasolina', fontSize: 25},
             {
               layout: 'lightHorizontalLines', // optional
+              fontSize: 8,
               table: {
                 widths: ['auto', 'auto','auto','auto','auto','auto','auto','auto','auto','auto'],
                 headerRows: 1,
@@ -163,7 +165,7 @@ export class AccesoriosService {
           ]
 
         };
-        let file_name = "poligas_" + idpoligas + ".pdf";
+        let file_name = "poligas_" +idpoligas + Date.now() + ".pdf";
         
         const pdfdoc = printer.createPdfKitDocument(documentDefinition);
         pdfdoc.pipe(fs.createWriteStream(file_name));
@@ -175,6 +177,7 @@ export class AccesoriosService {
         //pdfdoc.pipe(fs.createWriteStream(file_name));
         //pdfdoc.end();
         return{'file_name': file_name};
+        
 
       }
 }
