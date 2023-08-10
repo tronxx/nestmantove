@@ -7,16 +7,22 @@ import { Poligas } from '../poligas/entities';
 import { Renpogas } from '../renpogas/entities';
 import { Combust } from '../combust/entities';
 import { RenpogasService } from '../renpogas/renpogas.service';
-import { Vehiculos } from '../vehiculos/entities'
+import { PoligasService } from '../poligas/poligas.service';
+import { Vehiculos } from '../vehiculos/entities';
+import { Cia } from '../cias/entities';
+import { CiaService } from '../cias/cias.service';
+
 
 @Module({
   imports:[
     TypeOrmModule.forFeature([
-       Precioscomb, Renpogas, Poligas, Combust, Vehiculos
+       Precioscomb, Renpogas, Poligas, Combust, Cia, Vehiculos
       ]),
  ],
 
-  providers: [AccesoriosService, RenpogasService],
+  providers: [
+     AccesoriosService, PoligasService, CiaService, RenpogasService
+    ],
   controllers: [AccesoriosController]
 })
 export class AccesoriosModule {}

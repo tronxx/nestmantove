@@ -67,5 +67,7 @@ export class AccesoriosController {
     @Get(':filename')
     downloadFile(@Param('filename') filename, @Res() res ): Observable<Object> {
     return of(res.sendFile(join(process.cwd(), './'+filename)));
+    //return of(res.sendFile(filename));
+
   }
 }

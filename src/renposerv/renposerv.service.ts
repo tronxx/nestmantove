@@ -5,6 +5,10 @@ import { Between, Repository } from 'typeorm';
 import { CreateRenposervDto, EditRenposervDto } from './dtos';
 import { Poliserv } from '../poliserv/entities';
 import { Renposerv } from './entities';
+import { Vehiculos } from '../vehiculos/entities';
+import { Chofer } from '../choferes/entities';
+import { Talleres } from '../talleres/entities';
+import { ServMantos } from '../servmantos/entities';
 
 @Injectable()
 export class RenposervService {
@@ -13,10 +17,46 @@ export class RenposervService {
         @InjectRepository(Poliserv)
         private readonly poliservRepository: Repository<Poliserv>,
         @InjectRepository(Renposerv)
-        private readonly renposervRepository: Repository<Renposerv>
+        private readonly renposervRepository: Repository<Renposerv>,
+        @InjectRepository(Vehiculos)
+        private readonly vehiculoRepository: Repository<Vehiculos>,
+        @InjectRepository(Talleres)
+        private readonly talleresRepository: Repository<Talleres>,
+        @InjectRepository(ServMantos)
+        private readonly servmantosRepository: Repository<ServMantos>,
 
     )
     {}
+
+    async getManyxRenpogas(cia: number, idpoliserv: number) :Promise < any >  {
+        //const query = await this.vehiculosRepository.createQueryBuilder('a')
+      
+      //.innerJoinAndMapOne("a.idmarcaveh", Marcasveh, 'b', 'a.idmarca  = b.id ')
+      //.where("a.cia = :micia", {micia:cia});
+      
+
+        const query = await this.renposervRepository.createQueryBuilder('a')
+        .select(['a.*','b.codigo as codigovehiculo',
+        'b.descri as nombrevehiculo',
+        'c.clave as clavegas',
+        'd.codigo as codigochofer',
+        'e.clave as claveserv',
+        'e.descri as descriserv',
+        'e.servop as servop',
+        'f.clave as clavetaller',
+        'f.nombre as nombretaller',
+        ])
+        //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .leftJoin(Vehiculos, 'b', 'a.idvehiculo = b.id')
+        .leftJoin(Chofer, 'd', 'a.idchofer = d.id')
+        .leftJoin(ServMantos, 'e', 'a.idservmanto = e.id')
+        .leftJoin(Talleres, 'f', 'a.idtaller = f.id')
+        .where("a.idpoliserv = :idpoliserv ", {idpoliserv:idpoliserv})
+        .orderBy( {conse: 'ASC'})
+        const respu =  await query.getRawMany();
+        //console.log(query.getSql(), "respu:", respu);
+        return (respu);
+    }
 
     async getMany(cia: number, idpoliserv: number) :Promise < Renposerv []>  {
         return await this.renposervRepository.find( {

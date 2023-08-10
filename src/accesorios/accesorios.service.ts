@@ -12,9 +12,11 @@ import { Precioscomb } from '../precioscomb/entities';
 import { Renpogas } from '../renpogas/entities';
 import { Poligas } from '../poligas/entities';
 import { Combust } from '../combust/entities';
+import { Cia } from '../cias/entities';
 import { Vehiculos } from '../vehiculos/entities';
 import { RenpogasService } from '../renpogas/renpogas.service';
 import { PoligasService } from '../poligas/poligas.service';
+import { CiaService } from '../cias/cias.service';
 import { of } from 'rxjs';
 
 @Injectable()
@@ -29,7 +31,11 @@ export class AccesoriosService {
         private readonly poligasRepository: Repository<Poligas>,
         @InjectRepository(Vehiculos)
         private readonly vehicuosRepository: Repository<Vehiculos>,
+        @InjectRepository(Cia)
+        private readonly ciaRepositoyy: Repository <Cia>,
         private renpongasService: RenpogasService,
+        private poligasService : PoligasService,
+        private ciasService: CiaService,
     )
     {}
 
@@ -71,8 +77,15 @@ export class AccesoriosService {
       }
 
       async imprimir_poliza(idpoligas: number) {
+        const poliza = await this.poligasService.getOne(0, idpoligas);
         const renpogas = await this.renpongasService.getManyxRenpogas(0, idpoligas);
-        
+        const numcia = poliza.cia;
+        const cia = await this.ciasService.getOne(numcia);
+        let  fechapol = String(poliza.fecha.getDate()).padStart(2, '0');
+        fechapol += "/" + String(poliza.fecha.getMonth() + 1).padStart(2, '0');
+        fechapol += "/" + poliza.fecha.getFullYear();
+        const datospoliza = "Póliza de Gasolina:" + poliza.clave + " " +  
+          poliza.nombre + " Del " + fechapol;
         let body = 
         [
           [
@@ -151,8 +164,14 @@ export class AccesoriosService {
           defaultStyle: {
             font: 'Helvetica'
           },
+          anotherStyle: {
+            alignment: 'right'
+          },
           content: [
-            { text: 'Compañía de Gasolina', fontSize: 25},
+            { text: cia.razon, fontSize: 14, alignment: 'center'},
+            { text: cia.direc, fontSize: 14, alignment: 'center'},
+            { text: datospoliza, fontSize: 10},
+            
             {
               layout: 'lightHorizontalLines', // optional
               fontSize: 8,
@@ -165,11 +184,16 @@ export class AccesoriosService {
           ]
 
         };
+        var dir = './upload';
+        if (!fs.existsSync(dir)){
+          fs.mkdirSync(dir);
+        }
         let file_name = "poligas_" +idpoligas + Date.now() + ".pdf";
         
         const pdfdoc = printer.createPdfKitDocument(documentDefinition);
         pdfdoc.pipe(fs.createWriteStream(file_name));
         pdfdoc.end();
+        
         //console.log("Poligas:", body);
         
         
