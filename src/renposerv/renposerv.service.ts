@@ -38,7 +38,6 @@ export class RenposervService {
         const query = await this.renposervRepository.createQueryBuilder('a')
         .select(['a.*','b.codigo as codigovehiculo',
         'b.descri as nombrevehiculo',
-        'c.clave as clavegas',
         'd.codigo as codigochofer',
         'e.clave as claveserv',
         'e.descri as descriserv',
@@ -50,7 +49,7 @@ export class RenposervService {
         .leftJoin(Vehiculos, 'b', 'a.idvehiculo = b.id')
         .leftJoin(Chofer, 'd', 'a.idchofer = d.id')
         .leftJoin(ServMantos, 'e', 'a.idservmanto = e.id')
-        .leftJoin(Talleres, 'f', 'a.idtaller = f.id')
+        .leftJoin(Talleres, 'f', 'a.idtalleraut = f.id')
         .where("a.idpoliserv = :idpoliserv ", {idpoliserv:idpoliserv})
         .orderBy( {conse: 'ASC'})
         const respu =  await query.getRawMany();

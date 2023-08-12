@@ -13,7 +13,7 @@ export class RenposervController {
         @Param('cia') cia: number,
         @Param('idpoliserv') idpoliserv: number
     ) {
-        return await this.renposervService.getMany(cia, idpoliserv);
+        return await this.renposervService.getManyxRenpogas(cia, idpoliserv);
     }
 
     @Get(':cia/:idpoliserv/:id')
