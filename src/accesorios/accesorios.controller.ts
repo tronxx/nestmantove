@@ -21,6 +21,7 @@ export class AccesoriosController {
         @Query('idcombust') idcombust: number,
         @Query('idvehiculo') idvehiculo: number,
         @Query('idpoligas') idpoligas: number,
+        @Query('idpoliserv') idpoliserv: number,
         @Query('fecha') fecha: string,
         
 
@@ -37,6 +38,9 @@ export class AccesoriosController {
         }
         if(modo == "imprimirpoligas") {
             return this.imprimir_poligas(idpoligas);
+        }
+        if(modo == "imprimirpoliserv") {
+            return this.imprimir_poliserv (idpoliserv);
         }
   
     }
@@ -63,10 +67,17 @@ export class AccesoriosController {
         return (mipdf);
     }
 
+    async imprimir_poliserv(idpoliserv: number): Promise <any> {
+        //console.log("Voy a imprimir la poliza de gasolina", idpoligas);
+        
+        const mipdf = await ( this.accesoriosService.imprimir_poliza_servicio(idpoliserv));
+        return (mipdf);
+    }
+
 
     @Get(':filename')
     downloadFile(@Param('filename') filename, @Res() res ): Observable<Object> {
-    return of(res.sendFile(join(process.cwd(), './'+filename)));
+    return of(res.sendFile(join(process.cwd(), './upload/'+filename)));
     //return of(res.sendFile(filename));
 
   }

@@ -46,7 +46,7 @@ export class PoliservService {
         });
     }
 
-    async getOne(cia: number, id: number) : Promise<Poliserv> {
+    async getOne(cia: number, id: number) : Promise<any> {
         const query = await this.poliservRepository.createQueryBuilder('a')
         .select(['a.*','clave','nombre'])
         //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')

@@ -41,6 +41,7 @@ export class RenposervService {
         'd.codigo as codigochofer',
         'e.clave as claveserv',
         'e.descri as descriserv',
+        'e.toggle as toggle',
         'e.servop as servop',
         'f.clave as clavetaller',
         'f.nombre as nombretaller',
