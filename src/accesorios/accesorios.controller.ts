@@ -23,6 +23,7 @@ export class AccesoriosController {
         @Query('idpoligas') idpoligas: number,
         @Query('idpoliserv') idpoliserv: number,
         @Query('fecha') fecha: string,
+        @Query('cia') cia: number,
         
 
     ): Promise<any> {
@@ -42,7 +43,37 @@ export class AccesoriosController {
         if(modo == "imprimirpoliserv") {
             return this.imprimir_poliserv (idpoliserv);
         }
+        if(modo == "obtenertotalesgasxperio") {
+            return this.obtenertotalesgas(cia);
+        }
+        if(modo == "obtenertotalesservxperio") {
+            return this.obtenertotalesserv(cia);
+        }
+        if(modo == "obtenertotalesservxperioxvehi") {
+            return this.obtenertotalesservxvehi(cia);
+        }
+        if(modo == "obtenertotalesgasxperioxvehi") {
+            return this.obtenertotalesgasxvehi(cia);
+        }
+
+        
   
+    }
+
+    async obtenertotalesgas(cia:number) {
+        return await this.accesoriosService.findtotalgasxperio(cia);
+    }
+
+    async obtenertotalesserv(cia:number) {
+        return await this.accesoriosService.findtotalservperio(cia);
+    }
+
+    async obtenertotalesservxvehi(cia:number) {
+        return await this.accesoriosService.findtotalservperioxvehi(cia);
+    }
+
+    async obtenertotalesgasxvehi(cia:number) {
+        return await this.accesoriosService.findtotalgasxperioxvehi(cia);
     }
 
     async obtenerPrecioMasReciente(

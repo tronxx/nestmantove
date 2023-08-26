@@ -23,9 +23,7 @@ import { PoligasService } from '../poligas/poligas.service';
 import { CiaService } from '../cias/cias.service';
 import { PoliservService } from '../poliserv/poliserv.service';
 import { RenposervService } from '../renposerv/renposerv.service';
-
 import { of } from 'rxjs';
-
 
 @Injectable()
 export class AccesoriosService {
@@ -128,7 +126,9 @@ export class AccesoriosService {
         }
           
         for(let item of renpogas) {
-            const renglon = [
+          const total = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.total)
+          const preciou = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.preciou)
+          const renglon = [
               item.codigovehiculo + " " + item.nombrevehiculo,
               item.codigochofer,
               item.nombrezona,
@@ -136,11 +136,11 @@ export class AccesoriosService {
               item.kmtact,
               item.recorr,
               item.litros,
-              item.preciou,
-              item.total,
+              preciou,
+              total,
               Math.round(item.rendto *100) / 100
             ];
-            totales.litros += item.litros;
+            totales.litros += Math.round(item.litros *100) / 100;
             totales.recorre += item.recorr;
             totales.total += item.total;
 
@@ -149,6 +149,8 @@ export class AccesoriosService {
         if(totales.litros) {
           totales.rendto = totales.recorre / totales.litros;
         };
+        const imptotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totales.total)
+        const totlitros = Math.round(totales.litros *100) / 100;
         const total = [
           'Totales',
           '',
@@ -156,9 +158,9 @@ export class AccesoriosService {
           '',
           '',
           totales.recorre.toString(),
-          totales.litros.toString(),
+          totlitros.toString(),
           '',
-          totales.total.toString(),
+          imptotal,
           (Math.round(totales.rendto *100) / 100).toString()
         ];
         body.push(total);
@@ -260,26 +262,29 @@ export class AccesoriosService {
               }
   
             }
+            const costo = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.costo)
             const renglon = [
               item.codigovehiculo + " " + item.nombrevehiculo,
               item.codigochofer,
               servicio,
               item.clavetaller + " " + item.nombretaller,
               item.kilom,
-              item.costo,
+              costo,
               item.observ,
             ];
             totales.total += item.costo;
 
             body.push(renglon);
         };
+        const costo = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totales.total)
+
         const total = [
           'Totales',
           '',
           '',
           '',
           '',
-          totales.total.toString(),
+          costo,
           '',
         ];
         body.push(total);
@@ -343,5 +348,141 @@ export class AccesoriosService {
         
 
       }
+
+      async findtotalgasxperio(cia: number): Promise<any> {
+        const today = new Date();
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(today.getFullYear() - 1);
+        oneYearAgo.setDate(1);
+        const stranuant = oneYearAgo.getFullYear().toString() + "-" + (oneYearAgo.getMonth() + 1).toString() + "-" + oneYearAgo.getDate().toString();
+        const stranuhoy = today.getFullYear().toString() + "-" + (today.getMonth() + 1).toString() + "-" + today.getDate().toString();
+        // console.log('stranuant:', stranuant, "stranuhoy:", stranuhoy);
+        
+        
+        const obtentotales = await this.poligasRepository
+          .createQueryBuilder('a')
+          .select('year(a.fecha)', 'anu')
+          .addSelect ('month(a.fecha)', 'mes')
+          .addSelect('round(SUM(b.total),2)', 'total')
+          .leftJoin(Renpogas, 'b', 'a.id = b.idpoligas')
+          .where('a.fecha BETWEEN :startDate AND :endDate', {
+            startDate: stranuant,
+            endDate: stranuhoy,
+          })
+          .groupBy('anu, mes')
+          .getRawMany();
+          return (obtentotales);
+        //console.log("Registro Hallado:", latestRenpogas);
+      }
+
+      async findtotalservperio(cia: number): Promise<any> {
+        const today = new Date();
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(today.getFullYear() - 1);
+        oneYearAgo.setDate(1);
+        const stranuant = oneYearAgo.getFullYear().toString() + "-" + (oneYearAgo.getMonth() + 1).toString() + "-" + oneYearAgo.getDate().toString();
+        const stranuhoy = today.getFullYear().toString() + "-" + (today.getMonth() + 1).toString() + "-" + today.getDate().toString();
+        // console.log('stranuant:', stranuant, "stranuhoy:", stranuhoy);
+        
+        
+        const obtentotales = await this.poliservRepository
+          .createQueryBuilder('a')
+          .select('year(a.fecha)', 'anu')
+          .addSelect ('month(a.fecha)', 'mes')
+          .addSelect('round(SUM(b.costo),2)', 'total')
+          .leftJoin(Renposerv, 'b', 'a.id = b.idpoliserv')
+          .where('a.fecha BETWEEN :startDate AND :endDate', {
+            startDate: stranuant,
+            endDate: stranuhoy,
+          })
+          .groupBy('anu, mes')
+          .getRawMany();
+          return (obtentotales);
+        //console.log("Registro Hallado:", latestRenpogas);
+      }
+
+      resta_n_meses(fecha: Date, meses: number) {
+        const nvafecha= fecha;
+        let year = fecha.getFullYear();
+        let  mes= fecha.getMonth();
+        let  dia= fecha.getDate();
+        while (meses ) {
+          mes--;
+          if(mes < 0) { year--; mes = 11 }
+          meses--;
+        }
+        if(dia >28) {
+          if(mes == 3 || mes == 5 || mes == 8 || mes == 10) {
+            if(dia > 30) dia = 30;
+          } else if(mes == 1) { 
+              dia = 28
+              if (year % 4) dia= 29 
+          }
+  
+        }
+        nvafecha.setFullYear(year);
+        nvafecha.setDate(dia);
+        nvafecha.setMonth(mes);
+        return (nvafecha);
+      }
+
+      async findtotalservperioxvehi(cia: number): Promise<any> {
+        const today = new Date();
+        let oneYearAgo = new Date();
+        oneYearAgo.setDate(1);
+        oneYearAgo = this.resta_n_meses(oneYearAgo, 3);
+        const stranuant = oneYearAgo.getFullYear().toString() + "-" + (oneYearAgo.getMonth() + 1).toString() + "-" + oneYearAgo.getDate().toString();
+        const stranuhoy = today.getFullYear().toString() + "-" + (today.getMonth() + 1).toString() + "-" + today.getDate().toString();
+        // console.log('stranuant:', stranuant, "stranuhoy:", stranuhoy);
+        
+        
+        const obtentotales = await this.poliservRepository
+          .createQueryBuilder('a')
+          .select('year(a.fecha)', 'anu')
+          .addSelect ('month(a.fecha)', 'mes')
+          .addSelect ('c.codigo', 'vehi')
+          .addSelect ('c.descri', 'descri')
+          .addSelect('round(SUM(b.costo),2)', 'total')
+          .leftJoin(Renposerv, 'b', 'a.id = b.idpoliserv')
+          .leftJoin(Vehiculos, 'c', 'b.idvehiculo = c.id')
+          .where('a.fecha BETWEEN :startDate AND :endDate', {
+            startDate: stranuant,
+            endDate: stranuhoy,
+          })
+          .groupBy('anu, mes, vehi, descri')
+          .getRawMany();
+          return (obtentotales);
+        //console.log("Registro Hallado:", latestRenpogas);
+      }
+
+      async findtotalgasxperioxvehi(cia: number): Promise<any> {
+        const today = new Date();
+        let oneYearAgo = new Date();
+        oneYearAgo.setDate(1);
+        oneYearAgo = this.resta_n_meses(oneYearAgo, 3);
+        const stranuant = oneYearAgo.getFullYear().toString() + "-" + (oneYearAgo.getMonth() + 1).toString() + "-" + oneYearAgo.getDate().toString();
+        const stranuhoy = today.getFullYear().toString() + "-" + (today.getMonth() + 1).toString() + "-" + today.getDate().toString();
+        // console.log('stranuant:', stranuant, "stranuhoy:", stranuhoy);
+        
+        
+        const obtentotales = await this.poligasRepository
+          .createQueryBuilder('a')
+          .select('year(a.fecha)', 'anu')
+          .addSelect ('month(a.fecha)', 'mes')
+          .addSelect ('c.codigo', 'vehi')
+          .addSelect ('c.descri', 'descri')
+          .addSelect('round(SUM(b.total),2)', 'total')
+          .leftJoin(Renpogas, 'b', 'a.id = b.idpoligas')
+          .leftJoin(Vehiculos, 'c', 'b.idvehiculo = c.id')
+          .where('a.fecha BETWEEN :startDate AND :endDate', {
+            startDate: stranuant,
+            endDate: stranuhoy,
+          })
+          .groupBy('anu, mes, vehi, descri')
+          .getRawMany();
+          return (obtentotales);
+        //console.log("Registro Hallado:", latestRenpogas);
+      }
+
 
 }
