@@ -43,16 +43,27 @@ import { Poliserv } from './poliserv/entities';
 import { RenposervModule } from './renposerv/renposerv.module';
 import { Renposerv } from './renposerv/entities';
 import { AccesoriosModule } from './accesorios/accesorios.module';
+import { config } from "dotenv";
+config();
+
+const {
+  TYPE,
+  HOST,
+  PORT,
+  DB_USERNAME,
+  PASSWORD,
+  DATABASE
+} = process.env
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'mantove',
+      type: TYPE as any,
+      host: HOST,
+      port: parseInt(PORT),
+      username: DB_USERNAME,
+      password: PASSWORD,
+      database: DATABASE,
       entities: [Almacenes, Chofer, Cia, Talleres, Marcasveh, 
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
         ServMantos, ServmantosxVehiculo, Usuarios, Poligas, Renpogas, 
