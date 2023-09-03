@@ -44,6 +44,7 @@ import { RenposervModule } from './renposerv/renposerv.module';
 import { Renposerv } from './renposerv/entities';
 import { AccesoriosModule } from './accesorios/accesorios.module';
 import { config } from "dotenv";
+import { InformecombModule } from './informecomb/informecomb.module';
 config();
 
 const {
@@ -89,6 +90,7 @@ const {
     PoliservModule,
     RenposervModule,
     AccesoriosModule,
+    InformecombModule,
     ],
   controllers: [AppController],
   providers: [AppService],

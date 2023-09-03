@@ -484,5 +484,35 @@ export class AccesoriosService {
         //console.log("Registro Hallado:", latestRenpogas);
       }
 
+      async findtotalgasxperioespecificoxvehi(cia: number, fechaini: string, fechafin: string): Promise<any> {
+        const today = new Date();
+        let oneYearAgo = new Date();
+        oneYearAgo.setDate(1);
+        oneYearAgo = this.resta_n_meses(oneYearAgo, 3);
+        const stranuant = oneYearAgo.getFullYear().toString() + "-" + (oneYearAgo.getMonth() + 1).toString() + "-" + oneYearAgo.getDate().toString();
+        const stranuhoy = today.getFullYear().toString() + "-" + (today.getMonth() + 1).toString() + "-" + today.getDate().toString();
+        // console.log('stranuant:', stranuant, "stranuhoy:", stranuhoy);
+        
+        
+        const obtentotales = await this.poligasRepository
+          .createQueryBuilder('a')
+          .select('a.fecha', 'fecha')
+          .addSelect ('c.codigo', 'vehi')
+          .addSelect ('c.descri', 'descri')
+          .addSelect('round(SUM(b.total),2)', 'total')
+          .addSelect('round(SUM(b.recorr),2)', 'recorre')
+          .addSelect('round(SUM(b.litros),2)', 'litros')
+          .leftJoin(Renpogas, 'b', 'a.id = b.idpoligas')
+          .leftJoin(Vehiculos, 'c', 'b.idvehiculo = c.id')
+          .where('a.fecha BETWEEN :startDate AND :endDate', {
+            startDate: stranuant,
+            endDate: stranuhoy,
+          })
+          .groupBy('vehi, descri, fecha')
+          .getRawMany();
+          return (obtentotales);
+        //console.log("Registro Hallado:", latestRenpogas);
+      }
+
 
 }
