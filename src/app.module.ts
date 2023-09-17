@@ -45,6 +45,10 @@ import { Renposerv } from './renposerv/entities';
 import { AccesoriosModule } from './accesorios/accesorios.module';
 import { config } from "dotenv";
 import { InformecombModule } from './informecomb/informecomb.module';
+import { CiasedoctaModule } from './ciasedocta/ciasedocta.module';
+import { CiasedoctaService } from './ciasedocta/ciasedocta.service';
+import { CiasedoctaController } from './ciasedocta/ciasedocta.controller';
+import { Ciasedocta } from './ciasedocta/entities';
 config();
 
 const {
@@ -68,7 +72,7 @@ const {
       entities: [Almacenes, Chofer, Cia, Talleres, Marcasveh, 
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
         ServMantos, ServmantosxVehiculo, Usuarios, Poligas, Renpogas, 
-        Poliserv, Renposerv,
+        Poliserv, Renposerv, Ciasedocta,
          join(__dirname, './**/**/*entity{.ts,.js}')],
       synchronize: true,
     }),
@@ -91,6 +95,7 @@ const {
     RenposervModule,
     AccesoriosModule,
     InformecombModule,
+    CiasedoctaModule,
     ],
   controllers: [AppController],
   providers: [AppService],
