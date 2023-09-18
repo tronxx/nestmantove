@@ -278,6 +278,7 @@ create table ciasedocta (
 	coa 		varchar(1),
 	tipo 		varchar(1),
 	importe		double precision,
+	saldo		double precision,
 	facafec		integer,
 	cia			integer,
 	created_at timestamp

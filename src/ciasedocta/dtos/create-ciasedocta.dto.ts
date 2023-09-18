@@ -23,6 +23,9 @@ export class CreateCiasedoctaDto {
     @IsNumber()
     importe: number;
 
+    @IsNumber()
+    saldo: number;
+
     @IsInt()
     facafec: number;
 

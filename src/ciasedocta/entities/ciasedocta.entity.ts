@@ -36,6 +36,9 @@ export class Ciasedocta {
     @Column({type: 'double precision'})
     importe: number;
 
+    @Column({type: 'double precision'})
+    saldo: number;
+
     @Column({type: 'integer'})
     facafec: number;
 
