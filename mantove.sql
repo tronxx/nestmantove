@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-08-2023 a las 05:45:00
+-- Tiempo de generación: 17-09-2023 a las 03:19:26
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 7.4.30
 
@@ -85,7 +85,6 @@ CREATE TABLE `chofer` (
 INSERT INTO `chofer` (`id`, `nombre`, `direc`, `status`, `created_at`, `codigo`, `telefono`, `cia`, `ciudad`) VALUES
 (1, 'Cervera García Wilberth', 'Calle 25 x 32 N.102 Col. Centro cp. 97000', 'A', '2023-05-02 03:48:05.299473', 'CGW', '9991747578', 1, ''),
 (6, 'Bolivar Pino Olegario', '15 n 321 x 12 y 14', 'A', '2023-08-15 21:55:06.982645', 'BPO', '9999999999', 1, ''),
-(7, '', '', 'A', '2023-08-15 22:42:29.830390', '', '', 1, ''),
 (8, 'ALFONSO C L', ' ', 'A', '2023-08-15 23:37:51.039662', 'ACL', ' ', 1, ' '),
 (9, 'MARIO A', ' ', 'A', '2023-08-15 23:37:51.087997', 'ACM', ' ', 1, ' '),
 (10, 'ISIDRO C C', ' ', 'A', '2023-08-15 23:37:51.100414', 'CCI', ' ', 1, ' '),
@@ -165,6 +164,35 @@ INSERT INTO `cias` (`cia`, `razon`, `direc`, `direc2`, `nomfis`, `telefono`, `fa
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ciasedocta`
+--
+
+CREATE TABLE `ciasedocta` (
+  `id` int(11) NOT NULL,
+  `docto` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `vence` date NOT NULL,
+  `concepto` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
+  `coa` varchar(1) COLLATE utf8_spanish_ci NOT NULL,
+  `tipo` varchar(1) COLLATE utf8_spanish_ci NOT NULL,
+  `importe` double NOT NULL,
+  `facafec` int(11) NOT NULL,
+  `cia` int(11) NOT NULL,
+  `created_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
+  `status` varchar(1) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `ciasedocta`
+--
+
+INSERT INTO `ciasedocta` (`id`, `docto`, `fecha`, `vence`, `concepto`, `coa`, `tipo`, `importe`, `facafec`, `cia`, `created_at`, `status`) VALUES
+(1, 1, '2023-09-01', '2023-09-30', 'Mensualidad Septiembre', 'C', 'E', 350, 0, 1, '2023-09-16 22:58:20.057805', 'A'),
+(2, 1, '2023-09-10', '2023-09-30', 'Bonificación Mensualidad Septiembre', 'A', 'B', 350, 0, 1, '2023-09-16 23:02:08.577767', 'A');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `ciudades`
 --
 
@@ -211,10 +239,10 @@ CREATE TABLE `combust` (
 --
 
 INSERT INTO `combust` (`id`, `clave`, `descri`, `prelit`, `piva`, `ultcam`, `cia`, `status`, `created_at`) VALUES
-(1, 'M', 'MAGNA', '23.29', '16.00', '2023-05-02 18:37:03.134278', 1, 'A', '2023-05-03 00:37:03.134278'),
+(1, 'M', 'MAGNA', '23.29', '16.00', '2023-05-02 18:37:03.134000', 1, 'A', '2023-05-03 00:37:03.134000'),
 (2, 'M', 'Magna', '22.20', '16.00', '2023-06-28 20:13:18.794000', 4, 'A', '2023-06-29 02:13:18.794000'),
 (4, 'P', 'Premium', '24.23', '16.00', '2023-06-28 20:28:06.135828', 4, 'A', '2023-06-29 02:28:06.135828'),
-(5, 'P', 'Premium', '23.99', '16.00', '2023-08-16 22:08:19.184509', 1, 'A', '2023-08-17 04:08:19.184509');
+(5, 'P', 'Premium', '24.20', '16.00', '2023-08-16 22:08:19.184000', 1, 'A', '2023-08-17 04:08:19.184000');
 
 -- --------------------------------------------------------
 
@@ -1393,7 +1421,10 @@ INSERT INTO `precioscomb` (`id`, `idcombust`, `fecha`, `prelit`, `cia`, `created
 (5, 2, '2023-06-28', '22.20', 4, '2023-06-29 02:20:04.092600'),
 (6, 4, '2023-06-28', '24.23', 4, '2023-06-29 02:28:06.154558'),
 (7, 2, '2023-07-28', '22.20', 4, '2023-07-28 22:27:20.673783'),
-(8, 5, '2023-08-16', '23.99', 1, '2023-08-17 04:08:19.205237');
+(8, 5, '2023-08-16', '23.99', 1, '2023-08-17 04:08:19.205237'),
+(9, 1, '2023-08-24', '23.29', 1, '2023-08-25 02:32:10.970314'),
+(10, 5, '2023-08-24', '23.99', 1, '2023-08-25 02:32:25.413666'),
+(11, 5, '2023-08-24', '24.20', 1, '2023-08-25 02:50:12.276602');
 
 -- --------------------------------------------------------
 
@@ -3701,8 +3732,8 @@ INSERT INTO `servmantos` (`id`, `clave`, `descri`, `mantoorepar`, `perio`, `kmof
 (13, 'ALB', 'ALINEACION-BALANCEO', 'M', 'S', 'K', 15000, 500, 'N', '', 'C', 1, 0, 'A', '2023-08-16 04:13:46.817551'),
 (14, 'LAE', 'LAVADO Y ENGRASADO', 'M', 'S', 'K', 15000, 200, 'N', '', 'C', 1, 0, 'A', '2023-08-16 04:13:46.878798'),
 (15, 'LFR', 'LIMPIEZA FRENOS MOTO', 'M', 'S', 'K', 5000, 200, 'N', '', 'M', 1, 0, 'A', '2023-08-16 04:13:46.892480'),
-(16, 'DIV', 'REP DIVERSAS (MOTO)', 'R', 'S', 'F', 0, 0, 'N', '', 'M', 1, 0, 'A', '2023-08-16 04:13:46.931340'),
-(17, 'REP', 'REPARACION DIVERSAS', 'R', 'S', 'F', 0, 0, 'N', '', 'C', 1, 0, 'A', '2023-08-16 04:13:47.032764'),
+(16, 'DIV', 'REP DIVERSAS (MOTO)', 'R', 'N', 'F', 0, 0, 'N', '', 'M', 1, 0, 'A', '2023-08-16 04:13:46.931000'),
+(17, 'REP', 'REPARACION DIVERSAS', 'R', 'N', 'F', 0, 0, 'N', '', 'C', 1, 0, 'A', '2023-08-16 04:13:47.032000'),
 (18, 'CAT', 'CAMBIO DE ACEITE MOTO', 'M', 'S', 'K', 2500, 100, 'N', '', 'M', 1, 0, 'A', '2023-08-16 04:13:47.154400');
 
 -- --------------------------------------------------------
@@ -3943,11 +3974,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `login`, `nombre`, `email`, `clave`, `maestro`, `numpol`, `cia`, `status`, `created_at`, `padre`, `iniciales`) VALUES
-(1, 'ADMIN', 'ANDRES MANUEL LOPEZ OBRADOR', 'tron_xx@hotmail.com', '(ADMIN.01)', 'N', '00', 1, 'A', '2023-05-03 00:48:10.156422', '', ''),
 (6, 'FABIOLO', 'FABIOLA CASTILLA SOLIS', 'fabiolocastilla@hotmail.com', '(FABIOLA.01)', 'N', '00', 1, 'A', '2023-05-20 03:34:15.303928', 'tron_xx@hotmail.com', 'AMLO'),
 (7, 'FABIOLA', 'FABIOLA CASTILLA SOLIS', 'fabiolacastilla@hotmail.com', '(FABIOLA.01)', 'N', '00', 1, 'A', '2023-05-20 03:36:18.384788', 'tron_xx@hotmail.com', 'CSFM'),
 (9, '731', 'Daniel R', 'fabi@hotmail.com', 'fabi010101', 'N', '00', 3, 'A', '2023-05-28 04:04:36.099375', '-1', '982'),
-(10, '227', 'Ricman', 'ricman@hotmail.com', 'ricman010101', 'N', '00', 1, 'A', '2023-05-31 00:53:32.306768', '-1', '385');
+(10, '227', 'Ricman', 'ricman@hotmail.com', 'ricman010101', 'N', '00', 1, 'A', '2023-05-31 00:53:32.306000', '-1', 'BRDR'),
+(12, '95', 'Franklin Porter', 'franklin@hotmail.com', 'frank010101', 'N', '', 1, 'A', '2023-09-13 04:25:50.932868', 'ricman@hotmail.com', 'PCF');
 
 -- --------------------------------------------------------
 
@@ -4002,7 +4033,6 @@ INSERT INTO `vehiculos` (`id`, `codigo`, `descri`, `idmarcaveh`, `modelo`, `feci
 (51, 14, 'ESTACAS NISSAN ROJA 2009 S/K055195', 9, 2009, '2010-02-01', '2000-09-21', 'YP-61-622', 'LGO.T/M2.4', '24442440A', 999999, 305688, 1479325, 100000, 'N', 1, 'N', '195R14', 'HDI SEGUROS', '24-63910', '2016-01-20', 1, 34, 'N', 0, 4, 'C', 'B', '2007-12-31', '2023-08-19 02:50:17.757810'),
 (52, 15, 'ESTACAS NISSAN ROJA 2004 S/K140794', 9, 2004, '2004-11-12', '2000-12-15', 'YP-06-481', '.', 'K24216726A', 999999, 296870, 297087, 100000, 'U', 1, 'N', '185/R14', 'SEGUROS\"MULTIVA\"', '05931-05', '2012-11-22', 1, 28, 'N', 0, 10, 'C', 'B', '2012-02-01', '2023-08-19 02:50:17.785309'),
 (53, 16, 'ESTACAS NISSAN ROJA 2004 S/K144282', 9, 2004, '2004-11-12', '2000-12-15', 'YP-78-497', '.', 'K24226023A', 999999, 334546, 339913, 100000, 'U', 1, 'N', '185/R14', 'SEGUROS\"MULTIVA\"', '34482-01', '2011-11-22', 1, 6, 'N', 0, 4, 'C', 'B', '2011-09-01', '2023-08-19 02:50:17.837996'),
-(54, 25, ' ', 9, 2011, '2011-12-24', '2011-12-24', '.', '.', '.', 99999999, 0, 0, 100000, 'N', 1, 'N', 'x', 'x', 'x', '2002-12-20', 1, 8, 'N', 0, 11, 'C', 'A', '2010-12-01', '2023-08-19 02:50:17.878995'),
 (55, 24, 'ESTACAS NISSAN ROJA 2009 S/K052996', 9, 2009, '2010-02-01', '1999-11-26', 'YP-60-068', 'LARGOTM2.4', 'KA24440184', 999999, 239962, 256682, 100000, 'N', 1, 'N', '195R14', 'HDI SEGUROS', '24-65734', '2016-01-11', 1, 10, 'N', 0, 5, 'C', 'B', '2000-12-02', '2023-08-19 02:50:17.884595'),
 (56, 27, 'TOYOTA HIACE PANEL 2008 S/P180010801', 13, 2008, '2007-12-24', '2002-06-25', 'YP-06-483', 'JTFPX22P18', '2TR8092670', 999999, 226169, 227873, 100000, 'N', 1, 'N', '195R15', 'SEGUROS\"QUALITAS\"', '74652-00', '2016-12-15', 1, 24, 'N', 0, 2, 'C', 'B', '2016-03-09', '2023-08-19 02:50:17.916696'),
 (57, 26, 'CAMION 3T.CHEVROLET VERDE2003 S/M100799', 2, 2003, '2002-12-07', '2002-12-07', 'YP-06-484', '.', '3M100799', 999999, 211607, 213187, 100000, 'U', 1, 'N', 'x', 'ASEGURADORA\"MULTIVA\"', '74399-01', '2017-11-26', 1, 36, 'N', 0, 1, 'C', 'B', '2017-05-31', '2023-08-19 02:50:17.924382'),
@@ -4022,7 +4052,7 @@ INSERT INTO `vehiculos` (`id`, `codigo`, `descri`, `idmarcaveh`, `modelo`, `feci
 (71, 21, 'ESTACAS NISSAN ROJA 2012 S/CK013732', 9, 2012, '2012-01-18', '2012-01-18', 'YU-6837-A', 'CABINA', 'KA24542834', 999999, 425496, 1479709, 100000, 'U', 1, 'N', '195R15', 'SEGUROS MULTIVA', '75153-01', '2018-01-18', 1, 6, 'N', 0, 2, 'C', 'A', '2000-01-24', '2023-08-19 02:50:18.543619'),
 (72, 4, 'CHEVROLET COLORADO CREWCAB GRIS 2013 S/D', 2, 2013, '2012-09-01', '2012-09-05', 'YP-92-745', 'MMM148FD6DH603965', 'HECHO EN TAILANDIA', 0, 87000, 90806, 100000, 'U', 3, 'N', 'x', 'SEGUROS\"MULTIVA\"', '57918-00', '2013-08-31', 1, 52, 'N', 0, 8, 'C', 'B', '2016-02-08', '2023-08-19 02:50:18.552323'),
 (73, 58, 'MOTO KAZE KA150-Z9 NEGRA 2012 S/B32761', 21, 2012, '2014-05-20', '2014-05-20', 'KXP8N', 'LDAPAK806CGB32761', '162FMJ-II-12033722', 0, 102438, 74596, 30000, 'U', 1, 'N', 'x', 'SEGUROS \" BX+ \"', '70382-03', '2018-03-20', 1, 27, 'N', 0, 2, 'M', 'B', '2010-08-01', '2023-08-19 02:50:18.598861'),
-(74, 1, 'MITSUBISHI  L200 ROJA 2015 S/042167', 22, 2015, '2015-07-06', '2015-07-13', 'YV-6835-A', 'CAJA LARGA', 'MMBMG46H6FD042167', 0, 397977, 1310672, 100000, 'U', 1, 'N', 'x', 'x', '71936-00', '2016-07-03', 1, 27, 'N', 0, 5, 'C', 'B', '2020-12-14', '2023-08-19 02:50:18.661656'),
+(74, 1, 'MITSUBISHI  L200 ROJA 2015 S/042167', 22, 2015, '2023-08-24', '2015-07-13', 'YV-6835-A', 'CAJA LARGA', 'MMBMG46H6FD042167', 0, 397977, 1310672, 100000, 'U', 1, 'N', 'x', 'x', '71936-00', '2016-07-03', 1, 27, 'N', 0, 8, 'C', 'A', '0000-00-00', '2023-08-19 02:50:18.661000'),
 (75, 52, 'MOTO HERCULES HC150 AZUL 2014 S/901503', 19, 2014, '2016-07-01', '2021-02-04', 'Y9 WVS', 'LV7MGZ401EA901503', '162FMJ1306052870', 0, 105472, 208678, 30000, 'U', 1, 'N', 'x', 'SEGURO BX+', '78374-01', '2018-06-22', 1, 27, 'N', 102028, 10, 'M', 'B', '2016-06-30', '2023-08-19 02:50:18.748972'),
 (76, 51, 'MOTO KAZE KA125 Z5 GRIS 2016 S/GGD12001', 21, 2016, '2018-03-09', '2018-03-09', 'TRN-2-E', 'LDAPAJ205GGD12001', '157FMI216J11987', 0, 37833, 102422, 30000, 'U', 1, 'N', 'x', 'SEGUROS \" BX+ \"', '91507-00', '2018-03-09', 1, 27, 'N', 0, 5, 'M', 'A', '2018-03-09', '2023-08-19 02:50:18.786920'),
 (77, 50, 'MOTO KAZE YK150-E 2017 S/C037555', 21, 2017, '2018-09-19', '2018-09-19', 'TTX 5 D', 'LB415P107HC037555', '161FMJ2H037555', 0, 1880, 59644, 0, 'N', 1, 'N', 'x', 'x', '200-000009', '2019-09-17', 1, 27, 'N', 0, 10, 'M', 'B', '2018-09-19', '2023-08-19 02:50:18.802859'),
@@ -4082,6 +4112,12 @@ ALTER TABLE `chofer`
 --
 ALTER TABLE `cias`
   ADD PRIMARY KEY (`cia`);
+
+--
+-- Indices de la tabla `ciasedocta`
+--
+ALTER TABLE `ciasedocta`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `ciudades`
@@ -4181,13 +4217,19 @@ ALTER TABLE `zonas`
 -- AUTO_INCREMENT de la tabla `almacenes`
 --
 ALTER TABLE `almacenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `chofer`
 --
 ALTER TABLE `chofer`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
+--
+-- AUTO_INCREMENT de la tabla `ciasedocta`
+--
+ALTER TABLE `ciasedocta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `ciudades`
@@ -4229,7 +4271,7 @@ ALTER TABLE `poliserv`
 -- AUTO_INCREMENT de la tabla `precioscomb`
 --
 ALTER TABLE `precioscomb`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `renpogas`
@@ -4265,7 +4307,7 @@ ALTER TABLE `talleres`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculos`
@@ -4277,7 +4319,7 @@ ALTER TABLE `vehiculos`
 -- AUTO_INCREMENT de la tabla `zonas`
 --
 ALTER TABLE `zonas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
