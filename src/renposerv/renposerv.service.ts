@@ -117,4 +117,50 @@ export class RenposervService {
 
     }
 
+    async getManyxRenposervxFecha(
+        cia: number, vehiculoini: number, vehiculofin: number, fechaini: string, fechafin: string
+        ) :Promise < any >  {
+        //const query = await this.vehiculosRepository.createQueryBuilder('a')
+      
+      //.innerJoinAndMapOne("a.idmarcaveh", Marcasveh, 'b', 'a.idmarca  = b.id ')
+      //.where("a.cia = :micia", {micia:cia});
+      
+
+        const query = await this.poliservRepository.createQueryBuilder('c')
+        .select([
+        'a.*',
+        'b.codigo as codigovehiculo',
+        'b.descri as nombrevehiculo',
+        'd.codigo as codigochofer',
+        'e.clave as claveserv',
+        'e.descri as descriserv',
+        'e.toggle as toggle',
+        'e.servop as servop',
+        'f.clave as clavetaller',
+        'f.nombre as nombretaller',
+        ])
+        //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .leftJoin(Renposerv, 'a', 'c.id = a.idpoliserv')
+        .leftJoin(Vehiculos, 'b', 'a.idvehiculo = b.id')
+        .leftJoin(Chofer, 'd', 'a.idchofer = d.id')
+        .leftJoin(ServMantos, 'e', 'a.idservmanto = e.id')
+        .leftJoin(Talleres, 'f', 'a.idtalleraut = f.id')
+        .where('a.fecha BETWEEN :startDate AND :endDate', {
+            startDate: fechaini,
+            endDate: fechafin,
+         })
+         .andWhere('b.codigo BETWEEN  :vehiculoini and :vehiculofin', { 
+            vehiculoini:vehiculoini,
+            vehiculofin: vehiculofin 
+        })
+        .orderBy( {
+            codigovehiculo:'ASC', 
+            fecha:'ASC', 
+            conse: 'ASC'
+        })
+        const respu =  await query.getRawMany();
+        //console.log(query.getSql(), "respu:", respu);
+        return (respu);
+    }
+
 }

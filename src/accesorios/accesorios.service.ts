@@ -225,7 +225,7 @@ export class AccesoriosService {
         
 
       }
-
+ 
       async imprimir_poliza_servicio(idpoliserv: number) {
         const poliza = await this.poliservService.getOne(0, idpoliserv);
         const renpogas = await this.renposervService.getManyxRenpogas(0, idpoliserv);
