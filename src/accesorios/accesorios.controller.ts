@@ -8,6 +8,7 @@ import { Response } from 'express'; // Import the Response object
 import path = require('path');
 import { Observable, of } from 'rxjs';
 import { join } from 'path';
+import { Vehiculos } from 'src/vehiculos/entities';
 
 @ApiTags('accesorios')
 @Controller('accesorios')
@@ -23,7 +24,11 @@ export class AccesoriosController {
         @Query('idpoligas') idpoligas: number,
         @Query('idpoliserv') idpoliserv: number,
         @Query('fecha') fecha: string,
+        @Query('fechaini') fechaini: string,
+        @Query('fechafin') fechafin: string,
         @Query('cia') cia: number,
+        @Query('vehiculoini') vehiculoini: number,
+        @Query('vehiculofin') vehiculofin: number,
         
 
     ): Promise<any> {
@@ -55,8 +60,15 @@ export class AccesoriosController {
         if(modo == "obtenertotalesgasxperioxvehi") {
             return this.obtenertotalesgasxvehi(cia);
         }
-
-        
+        if(modo == "obtenertotalesgasxperioxvehiculo") {
+            return this.obtenerGastosXVehiculoxRangoFechas(
+                cia, fechaini, fechafin, vehiculoini, vehiculofin);
+        }
+        if(modo == "obtenertotalesxperioxvehiculo") {
+            return this.obtenertotalXVehiculoxRangoFechas(
+                cia, fechaini, fechafin, vehiculoini, vehiculofin);
+        }
+  
   
     }
 
@@ -87,6 +99,41 @@ export class AccesoriosController {
       return precioMasReciente;
     }
 
+    async obtenerGastosXVehiculoxRangoFechas(
+        cia: number,
+        fechaini: string,
+        fechafin: string,
+        vehiculoini: number,
+        vehiculofin: number,
+     ): Promise<any> {
+     const gastoxCombustiblexVehiculo = await this.accesoriosService.findtotalgasxperioespecificoxvehi2(
+         cia,
+         fechaini,
+         fechafin,
+         vehiculoini,
+         vehiculofin
+       );
+       return gastoxCombustiblexVehiculo;
+    }
+
+    async obtenertotalXVehiculoxRangoFechas(
+        cia: number,
+        fechaini: string,
+        fechafin: string,
+        vehiculoini: number,
+        vehiculofin: number,
+     ): Promise<any> {
+     const gastoxVehiculo = await this.accesoriosService.obtenertotalXVehiculoxRangoFechas(
+         cia,
+         fechaini,
+         fechafin,
+         vehiculoini,
+         vehiculofin
+       );
+      return gastoxVehiculo;
+    }
+
+ 
     async getLatestKmtact( idvehiculo: number, fecha: string): Promise<any> {
         return this.accesoriosService.findLatestKmtactByDateAndVehicleId(fecha, idvehiculo);
     }

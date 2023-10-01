@@ -50,6 +50,7 @@ import { CiasedoctaService } from './ciasedocta/ciasedocta.service';
 import { CiasedoctaController } from './ciasedocta/ciasedocta.controller';
 import { Ciasedocta } from './ciasedocta/entities';
 import { InformeservModule } from './informeserv/informeserv.module';
+import { InformeacumModule } from './informeacum/informeacum.module';
 config();
 
 const {
@@ -98,6 +99,7 @@ const {
     InformecombModule,
     CiasedoctaModule,
     InformeservModule,
+    InformeacumModule,
     ],
   controllers: [AppController],
   providers: [AppService],

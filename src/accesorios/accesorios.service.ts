@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, LessThan, MoreThan, Raw, InsertValuesMissingError } from 'typeorm';
+import { Repository, LessThan, MoreThan, Raw, InsertValuesMissingError, Brackets } from 'typeorm';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
@@ -369,6 +369,7 @@ export class AccesoriosService {
             startDate: stranuant,
             endDate: stranuhoy,
           })
+          .andWhere('a-cia =:cia', {cia})
           .groupBy('anu, mes')
           .getRawMany();
           return (obtentotales);
@@ -395,6 +396,7 @@ export class AccesoriosService {
             startDate: stranuant,
             endDate: stranuhoy,
           })
+          .andWhere('a-cia =:cia', {cia})
           .groupBy('anu, mes')
           .getRawMany();
           return (obtentotales);
@@ -449,6 +451,7 @@ export class AccesoriosService {
             startDate: stranuant,
             endDate: stranuhoy,
           })
+          .andWhere('a-cia =:cia', {cia})
           .groupBy('anu, mes, vehi, descri')
           .getRawMany();
           return (obtentotales);
@@ -478,6 +481,7 @@ export class AccesoriosService {
             startDate: stranuant,
             endDate: stranuhoy,
           })
+          .andWhere('a-cia =:cia', {cia})
           .groupBy('anu, mes, vehi, descri')
           .getRawMany();
           return (obtentotales);
@@ -508,10 +512,112 @@ export class AccesoriosService {
             startDate: stranuant,
             endDate: stranuhoy,
           })
+          .andWhere('a.cia = :cia', {cia})
           .groupBy('vehi, descri, fecha')
           .getRawMany();
           return (obtentotales);
         //console.log("Registro Hallado:", latestRenpogas);
+      }
+
+      async findtotalgasxperioespecificoxvehi2(
+        cia: number, fechaini: string, fechafin: string, 
+        vehiculoini:number, vehiculofin:number,
+        ): Promise<any> {
+        // console.log('stranuant:', stranuant, "stranuhoy:", stranuhoy);
+        
+        
+        const obtentotales = await this.poligasRepository
+          .createQueryBuilder('a')
+          .select('b.idvehiculo')
+          .addSelect ('c.codigo', 'vehi')
+          .addSelect ('c.descri', 'descri')
+          .addSelect('round(SUM(b.total),2)', 'total')
+          .addSelect('round(SUM(b.recorr),2)', 'recorre')
+          .addSelect('round(SUM(b.litros),2)', 'litros')
+          .addSelect('min(b.kmtant)', 'kmtini')
+          .addSelect('max(b.kmtact)', 'kmtfin')
+          .leftJoin(Renpogas, 'b', 'a.id = b.idpoligas')
+          .leftJoin(Vehiculos, 'c', 'b.idvehiculo = c.id')
+          .where ('a.cia = :cia', {cia})
+          .andWhere('a.fecha BETWEEN :startDate AND :endDate', {
+            startDate: fechaini,
+            endDate: fechafin,
+          
+          })
+          .andWhere ('c.codigo between :vehiculoini and :vehiculofin', {
+            vehiculoini: vehiculoini,
+            vehiculofin: vehiculofin,
+          })
+
+          .groupBy('vehi, descri')
+          .getRawMany();
+          return (obtentotales);
+        //console.log("Registro Hallado:", latestRenpogas);
+      }
+
+      async findtotalservxperioespecificoxvehi2(
+        cia: number, fechaini: string, fechafin: string, 
+        vehiculoini:number, vehiculofin:number,
+        ): Promise<any> {
+        // console.log('stranuant:', stranuant, "stranuhoy:", stranuhoy);
+        
+        
+        const obtentotales = await this.poliservRepository
+          .createQueryBuilder('a')
+          .select('b.idvehiculo')
+          .addSelect ('c.codigo', 'vehi')
+          .addSelect ('c.descri', 'descri')
+          .addSelect('round(SUM(b.costo),2)', 'costo')
+          .leftJoin(Renposerv, 'b', 'a.id = b.idpoliserv')
+          .leftJoin(Vehiculos, 'c', 'b.idvehiculo = c.id')
+          .where ('a.cia = :cia', {cia})
+          .andWhere('a.fecha BETWEEN :startDate AND :endDate', {
+            startDate: fechaini,
+            endDate: fechafin,
+          
+          })
+          .andWhere ('c.codigo between :vehiculoini and :vehiculofin', {
+            vehiculoini: vehiculoini,
+            vehiculofin: vehiculofin,
+          })
+
+          .groupBy('vehi, descri')
+          .getRawMany();
+          return (obtentotales);
+        //console.log("Registro Hallado:", latestRenpogas);
+      }
+
+      async obtenertotalXVehiculoxRangoFechas(
+      cia: number, fechaini: string, fechafin: string, 
+      vehiculoini:number, vehiculofin:number,
+      ): Promise<any> { 
+        const gastoxCombustiblexVehiculo = await this.findtotalgasxperioespecificoxvehi2(
+          cia,
+          fechaini,
+          fechafin,
+          vehiculoini,
+          vehiculofin
+        );
+        const gastoxServxVehiculo = await this.findtotalservxperioespecificoxvehi2(
+         cia,
+         fechaini,
+         fechafin,
+         vehiculoini,
+         vehiculofin
+       );
+       const resultados = {}
+       for( const gasto of [...gastoxCombustiblexVehiculo, ...gastoxServxVehiculo]) {
+         const b_idvehiculo = gasto.b_idvehiculo;
+ 
+         if (!resultados[b_idvehiculo]) {
+           resultados[b_idvehiculo] = { ...gasto, costosrv: 0 };
+         } else {
+           resultados[b_idvehiculo].costosrv = gasto.costo;
+         }
+       }
+       const resultadoFinal = Object.values(resultados);
+       return resultadoFinal;
+ 
       }
 
 

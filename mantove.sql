@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-09-2023 a las 03:19:26
+-- Tiempo de generación: 29-09-2023 a las 01:31:06
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 7.4.30
 
@@ -179,16 +179,17 @@ CREATE TABLE `ciasedocta` (
   `facafec` int(11) NOT NULL,
   `cia` int(11) NOT NULL,
   `created_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
-  `status` varchar(1) COLLATE utf8_spanish_ci NOT NULL
+  `status` varchar(1) COLLATE utf8_spanish_ci NOT NULL,
+  `saldo` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `ciasedocta`
 --
 
-INSERT INTO `ciasedocta` (`id`, `docto`, `fecha`, `vence`, `concepto`, `coa`, `tipo`, `importe`, `facafec`, `cia`, `created_at`, `status`) VALUES
-(1, 1, '2023-09-01', '2023-09-30', 'Mensualidad Septiembre', 'C', 'E', 350, 0, 1, '2023-09-16 22:58:20.057805', 'A'),
-(2, 1, '2023-09-10', '2023-09-30', 'Bonificación Mensualidad Septiembre', 'A', 'B', 350, 0, 1, '2023-09-16 23:02:08.577767', 'A');
+INSERT INTO `ciasedocta` (`id`, `docto`, `fecha`, `vence`, `concepto`, `coa`, `tipo`, `importe`, `facafec`, `cia`, `created_at`, `status`, `saldo`) VALUES
+(1, 1, '2023-09-01', '2023-09-30', 'Mensualidad Septiembre', 'C', 'E', 350, 0, 1, '2023-09-16 22:58:20.057805', 'A', 0),
+(2, 1, '2023-09-10', '2023-09-30', 'Bonificación Mensualidad Septiembre', 'A', 'B', 350, 0, 1, '2023-09-16 23:02:08.577767', 'A', 0);
 
 -- --------------------------------------------------------
 

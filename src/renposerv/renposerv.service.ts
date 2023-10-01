@@ -153,6 +153,7 @@ export class RenposervService {
             vehiculoini:vehiculoini,
             vehiculofin: vehiculofin 
         })
+        .andWhere('a-cia =:cia', {cia})
         .orderBy( {
             codigovehiculo:'ASC', 
             fecha:'ASC', 

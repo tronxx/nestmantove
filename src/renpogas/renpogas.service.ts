@@ -82,6 +82,7 @@ export class RenpogasService {
             vehiculoini:vehiculoini,
             vehiculofin: vehiculofin 
         })
+        .andWhere('a-cia =:cia', {cia})
         .orderBy( {
             codigovehiculo:'ASC', 
             fecha:'ASC', 
