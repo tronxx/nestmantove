@@ -369,7 +369,7 @@ export class AccesoriosService {
             startDate: stranuant,
             endDate: stranuhoy,
           })
-          .andWhere('a-cia =:cia', {cia})
+          .andWhere('a.cia =:cia', {cia})
           .groupBy('anu, mes')
           .getRawMany();
           return (obtentotales);
@@ -396,7 +396,7 @@ export class AccesoriosService {
             startDate: stranuant,
             endDate: stranuhoy,
           })
-          .andWhere('a-cia =:cia', {cia})
+          .andWhere('a.cia =:cia', {cia})
           .groupBy('anu, mes')
           .getRawMany();
           return (obtentotales);
@@ -451,7 +451,7 @@ export class AccesoriosService {
             startDate: stranuant,
             endDate: stranuhoy,
           })
-          .andWhere('a-cia =:cia', {cia})
+          .andWhere('a.cia =:cia', {cia})
           .groupBy('anu, mes, vehi, descri')
           .getRawMany();
           return (obtentotales);
@@ -481,7 +481,7 @@ export class AccesoriosService {
             startDate: stranuant,
             endDate: stranuhoy,
           })
-          .andWhere('a-cia =:cia', {cia})
+          .andWhere('a.cia =:cia', {cia})
           .groupBy('anu, mes, vehi, descri')
           .getRawMany();
           return (obtentotales);
