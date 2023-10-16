@@ -620,5 +620,29 @@ export class AccesoriosService {
  
       }
 
+      async findConsumoCombustxperioespecificoxvehi(
+        cia: number, fechaini: string, fechafin: string, 
+        vehiculoini:number, vehiculofin:number,
+        ): Promise<any> { 
+          const consumo = this.renpongasService.getManyxVehixFecha(cia, vehiculoini, vehiculofin, fechaini, fechafin);
+          return consumo;
+
+      }
+
+      async findGastosxServiciosxperioespecificoxvehi(
+        cia: number, fechaini: string, fechafin: string, 
+        vehiculoini:number, vehiculofin:number,
+        ): Promise<any> { 
+          
+          const gastoxServxVehiculo = await this.renposervService.getManyxRenposervxFecha(
+            cia,
+            vehiculoini,
+            vehiculofin,
+            fechaini,
+            fechafin,
+
+          );
+          return gastoxServxVehiculo;
+      }
 
 }

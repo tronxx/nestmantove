@@ -68,6 +68,14 @@ export class AccesoriosController {
             return this.obtenertotalXVehiculoxRangoFechas(
                 cia, fechaini, fechafin, vehiculoini, vehiculofin);
         }
+        if(modo == "obtenerGastosCombustXVehiculoxRangoFechas") {
+            return this.obtenerGastosCombustXVehiculoxRangoFechas(
+                cia, fechaini, fechafin, vehiculoini, vehiculofin);
+        }
+        if(modo = "obtenerGastosServiciostXVehiculoxRangoFechas") {
+            return this.obtenerGastosServiciostXVehiculoxRangoFechas (
+                cia, fechaini, fechafin, vehiculoini, vehiculofin);
+        }
   
   
     }
@@ -150,6 +158,32 @@ export class AccesoriosController {
         
         const mipdf = await ( this.accesoriosService.imprimir_poliza_servicio(idpoliserv));
         return (mipdf);
+    }
+
+    async obtenerGastosCombustXVehiculoxRangoFechas(
+        cia: number,
+        fechaini: string,
+        fechafin: string,
+        vehiculoini: number,
+        vehiculofin: number,
+     ): Promise<any> { 
+        const gastoconmbus = this.accesoriosService.findConsumoCombustxperioespecificoxvehi(
+            cia, fechaini, fechafin, 
+            vehiculoini, vehiculofin);
+        return gastoconmbus;
+    }
+
+    async obtenerGastosServiciostXVehiculoxRangoFechas(
+        cia: number,
+        fechaini: string,
+        fechafin: string,
+        vehiculoini: number,
+        vehiculofin: number,
+     ): Promise<any> { 
+        const gastoconmbus = this.accesoriosService.findGastosxServiciosxperioespecificoxvehi(
+            cia, fechaini, fechafin, 
+            vehiculoini, vehiculofin);
+        return gastoconmbus;
     }
 
 
