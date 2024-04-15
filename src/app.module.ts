@@ -51,7 +51,17 @@ import { CiasedoctaController } from './ciasedocta/ciasedocta.controller';
 import { Ciasedocta } from './ciasedocta/entities';
 import { InformeservModule } from './informeserv/informeserv.module';
 import { InformeacumModule } from './informeacum/informeacum.module';
+import { InvenModule } from './inven/inven.module';
+import { Inven } from './inven/entities';
 config();
+// const   
+//TYPE='mysql',
+//  HOST='localhost',
+//  PORT='3306',
+//  DB_USERNAME='root',
+//  PASSWORD='',
+//  DATABASE='kardex'
+//;
 
 const {
   TYPE,
@@ -74,7 +84,7 @@ const {
       entities: [Almacenes, Chofer, Cia, Talleres, Marcasveh, 
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
         ServMantos, ServmantosxVehiculo, Usuarios, Poligas, Renpogas, 
-        Poliserv, Renposerv, Ciasedocta,
+        Poliserv, Renposerv, Ciasedocta, Inven,
          join(__dirname, './**/**/*entity{.ts,.js}')],
       synchronize: true,
     }),
@@ -100,6 +110,7 @@ const {
     CiasedoctaModule,
     InformeservModule,
     InformeacumModule,
+    InvenModule,
     ],
   controllers: [AppController],
   providers: [AppService],
