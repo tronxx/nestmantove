@@ -25,6 +25,15 @@ export class InvenController {
         return this.invenService.getOne(cia, id);
     }
 
+    @Get(':cia/:id/:codigo')
+    getManyLike(
+        @Param('cia') cia: number,
+        @Param('id') id: number,
+        @Param('codigo') codigo: string,
+    ) {
+        return this.invenService.getManyCiaLike(cia, codigo);
+    }
+
     @Post()
     async createOne(
         @Body() dto: CreateInvenDto

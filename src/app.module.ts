@@ -53,6 +53,8 @@ import { InformeservModule } from './informeserv/informeserv.module';
 import { InformeacumModule } from './informeacum/informeacum.module';
 import { InvenModule } from './inven/inven.module';
 import { Inven } from './inven/entities';
+import { KardexModule } from './kardex/kardex.module';
+import { Exist, Kardex, Series } from './kardex/entities';
 config();
 // const   
 //TYPE='mysql',
@@ -84,7 +86,7 @@ const {
       entities: [Almacenes, Chofer, Cia, Talleres, Marcasveh, 
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
         ServMantos, ServmantosxVehiculo, Usuarios, Poligas, Renpogas, 
-        Poliserv, Renposerv, Ciasedocta, Inven,
+        Poliserv, Renposerv, Ciasedocta, Inven, Kardex, Exist, Series,
          join(__dirname, './**/**/*entity{.ts,.js}')],
       synchronize: true,
     }),
@@ -111,6 +113,7 @@ const {
     InformeservModule,
     InformeacumModule,
     InvenModule,
+    KardexModule,
     ],
   controllers: [AppController],
   providers: [AppService],

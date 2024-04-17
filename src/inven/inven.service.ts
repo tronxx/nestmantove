@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { CreateInvenDto, EditInvenDto } from './dtos';
 import { Inven } from './entities';
 
@@ -22,6 +22,18 @@ export class InvenService {
         return await this.invenRepository.find(
             {
                 where: { cia : cia},
+                order: { codigo: "ASC"}
+            }
+        );
+    }
+
+    async getManyCiaLike(cia:number, codigo:string) :Promise <Inven[]>  {
+        return await this.invenRepository.find(
+            {
+                where: { 
+                    codigo: Like( codigo),
+                    cia : cia
+                },
                 order: { codigo: "ASC"}
             }
         );
