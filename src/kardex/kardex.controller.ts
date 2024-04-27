@@ -9,31 +9,32 @@ export class KardexController {
 
     constructor (private readonly kardexService: KardexService) {}
 
-    @Get(':cia/:idart/:idalm')
+    @Get(':cia/:idalm/:idart')
     getMany(
         @Param('cia') cia: number,
+        @Param('idalm') idalm: number,
         @Param('idart') idart: number,
-        @Param('idalm') idalm: number
     ) {
         //return await this.kardexService.getMany();
         return this.kardexService.getManyCia(cia, idalm, idart)
     }
 
-    @Get(':cia/:id')
+    @Get(':id')
     getOne(
         @Param('id') id: number,
-        @Param('cia') cia: number
     ) {
-        return this.kardexService.getOne(cia, id);
+        return this.kardexService.getOne(id);
     }
 
-    @Get(':cia/:id/:codigo')
-    getManyLike(
+
+    @Get(':cia/:idart/:idalm/:lastfolio')
+    getLastFolio(
         @Param('cia') cia: number,
-        @Param('id') id: number,
-        @Param('codigo') codigo: string,
+        @Param('idart') idart: number,
+        @Param('idalm') idalm: number,
+        @Param('lastfolio') lastfolio: number,
     ) {
-        return this.kardexService.getManyCiaLike(cia, codigo);
+        return this.kardexService.getLastFolio(idart, idalm);
     }
 
     @Post()

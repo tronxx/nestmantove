@@ -19,6 +19,9 @@ export class Kardex {
     @Column({type: 'integer'})
     idart: number;
 
+    @Column({type: 'integer'})
+    docto: number;
+
     @Column({type: 'date'})
     fecha: string;
 

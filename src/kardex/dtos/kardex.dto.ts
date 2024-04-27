@@ -1,6 +1,6 @@
 import { IsNumber, IsInt, IsString } from "class-validator";
 
-export class CreateKardexDto {
+export class KardexDto {
     @IsInt()
     idalm: number;
 

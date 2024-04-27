@@ -23,6 +23,18 @@ export class KardexService {
     }
 
     async getManyCia(cia:number, idalm:number, idart:number) :Promise <Kardex[]>  {
+        const query = await this.KardexRepository.createQueryBuilder('a')
+        .select(['a.*','b.serie as serie'])
+        //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .leftJoin(Series, 'b', 'a.idserie = b.id')
+        .where("a.idalm = :idalm ", {idalm:idalm})
+        .andWhere("a.idart = :idart ", {idart:idart})
+        .andWhere("a.cia = :cia ", {cia:cia})
+        .orderBy( {fecha: 'ASC', folio:'ASC'})
+        const respu =  await query.getRawMany();
+        //console.log(query.getSql(), "respu:", respu);
+        return (respu);
+
         return await this.KardexRepository.find(
             {
                 where: { idalm:idalm, idart:idart, cia : cia},
@@ -42,15 +54,42 @@ export class KardexService {
         );
     }
 
-    async getOne(cia: number, id: number) : Promise<Kardex> {
-        const Kardex = await this.KardexRepository.findOneBy({cia, id});
+    async getOne(id: number) : Promise<Kardex> {
+        const Kardex = await this.KardexRepository.findOneBy({id});
         if(!Kardex) throw new NotFoundException ('Kardex Inexistente');
-       return Kardex;
+        return Kardex;
+    }
+
+    async getLastFolio(idart: number, idalm: number) : Promise<number> {
+        const result = await this.KardexRepository
+        .createQueryBuilder('kardex')
+        .select('MAX(kardex.folio)', 'maxFolio')
+        .where('kardex.idalm = :idalm', { idalm })
+        .andWhere('kardex.idart = :idart', { idart })
+        .getRawOne();
+      return result.maxFolio || 0; // Devuelve 0 si no se encuentra ningún folio
+      
     }
 
     async editOne(id: number, dto: EditKardexDto) {
         const Kardex = await this.KardexRepository.findOneBy({id});
+        let afectaKardex = false;
         if(!Kardex) throw new NotFoundException ('Kardex Inexistente');
+        let dtoCreate = {
+            idalm :Kardex.idalm,
+            idart :Kardex.idart,
+            canti : Kardex.canti,
+            cia: Kardex.cia
+        }
+
+        if( Kardex.salio != dto.salio) {
+            afectaKardex = true;
+            if(Kardex.salio == "S") {
+                dtoCreate.canti = dtoCreate.canti * -1;
+            }
+            let entraosale = "S";
+            const exist = this.updateexist(dtoCreate, entraosale);
+        }
         const editedKardex = Object.assign(Kardex, dto);
         return await this.KardexRepository.update(id, editedKardex);
 
@@ -59,11 +98,21 @@ export class KardexService {
     async deleteOne(id: number) {
         const Kardex = await this.KardexRepository.findOneBy({id});
         if(!Kardex) throw new NotFoundException ('Kardex Inexistente');
+        let dtoCreate = {
+            idalm :Kardex.idalm,
+            idart :Kardex.idart,
+            canti : Kardex.canti,
+            cia: Kardex.cia
+        }
+
+        dtoCreate.canti = dtoCreate.canti * -1;
+        let entraosale = "E";
+        const exist = this.updateexist(dtoCreate, entraosale);
         return await this.KardexRepository.delete(id);
 
     }
 
-    async updateexist(dto: CreateKardexDto, entosal: string) {
+    async updateexist(dto: {idalm: number, idart:number, canti:number, cia:number}, entosal: string) {
         const idalm = dto.idalm;
         const idart = dto.idart;
         const canti = dto.canti;

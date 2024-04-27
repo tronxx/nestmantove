@@ -1,7 +1,7 @@
 import { PartialType, OmitType } from "@nestjs/mapped-types";
-import { CreateKardexDto } from "./create-kardex.dto";
+import { KardexDto } from "./kardex.dto";
 
 export class EditKardexDto extends PartialType(
-    OmitType( CreateKardexDto, [] as const)
+    OmitType( KardexDto, ['serie'] as const)
 ) 
 {}

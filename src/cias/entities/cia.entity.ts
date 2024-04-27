@@ -12,7 +12,7 @@ import {
 @Entity('cias')
 
 export class Cia {
-    @PrimaryColumn()
+    @PrimaryColumn ()
     cia: number;
 
     @Column({type: 'varchar', length:70, nullable: false})
