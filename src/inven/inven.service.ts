@@ -39,6 +39,34 @@ export class InvenService {
         );
     }
 
+    async getSigteAnter(cia: number, codigo: string, hacia:string) : Promise<Inven> {
+        let nvocodigo = "";
+        let mayoromenor = "";
+        let maxmin = "";
+        if(hacia == "A") {
+            maxmin = 'MAX(a.codigo) as nvocodigo'
+            mayoromenor = "a.codigo < :codigo"
+        } else {
+            maxmin = 'MIN(a.codigo) as nvocodigo'
+            mayoromenor = "a.codigo > :codigo"
+
+        }
+        const query = await this.invenRepository.createQueryBuilder('a')
+        .select(maxmin)
+        //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .where(mayoromenor, {codigo})
+        .andWhere("a.cia = :cia ", {cia})
+        const respu =  await query.getRawOne();
+        //console.log("Mayormenor:", mayoromenor, "maxmin:", maxmin, "respu:", respu)
+        if(respu) codigo = respu.nvocodigo
+
+        const inven = await this.invenRepository.findOneBy({cia, codigo});
+        if(!inven) throw new NotFoundException ('Inven Inexistente');
+       return inven;
+    }
+
+
+
     async getOne(cia: number, id: number) : Promise<Inven> {
         const inven = await this.invenRepository.findOneBy({cia, id});
         if(!inven) throw new NotFoundException ('Inven Inexistente');

@@ -72,13 +72,22 @@ export class AccesoriosController {
             return this.obtenerGastosCombustXVehiculoxRangoFechas(
                 cia, fechaini, fechafin, vehiculoini, vehiculofin);
         }
-        if(modo = "obtenerGastosServiciostXVehiculoxRangoFechas") {
+        if(modo == "obtenerGastosServiciostXVehiculoxRangoFechas") {
             return this.obtenerGastosServiciostXVehiculoxRangoFechas (
                 cia, fechaini, fechafin, vehiculoini, vehiculofin);
+        }
+        if(modo == "obtenerFechayHora") {
+            return this.obtenerFechayHora ();
         }
   
   
     }
+
+    async obtenerFechayHora() {
+        const fecha = new Date().toISOString();
+        return {fecha: fecha}
+    }
+
 
     async obtenertotalesgas(cia:number) {
         return await this.accesoriosService.findtotalgasxperio(cia);
@@ -189,8 +198,8 @@ export class AccesoriosController {
 
     @Get(':filename')
     downloadFile(@Param('filename') filename, @Res() res ): Observable<Object> {
-    return of(res.sendFile(join(process.cwd(), './upload/'+filename)));
-    //return of(res.sendFile(filename));
+        return of(res.sendFile(join(process.cwd(), './upload/'+filename)));
+        //return of(res.sendFile(filename));
 
-  }
+    }
 }

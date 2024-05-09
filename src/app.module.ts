@@ -55,6 +55,7 @@ import { InvenModule } from './inven/inven.module';
 import { Inven } from './inven/entities';
 import { KardexModule } from './kardex/kardex.module';
 import { Exist, Kardex, Series } from './kardex/entities';
+import { ImprikardexModule } from './imprikardex/imprikardex.module';
 config();
 // const   
 //TYPE='mysql',
@@ -64,6 +65,33 @@ config();
 //  PASSWORD='',
 //  DATABASE='kardex'
 //;
+const modules = [
+  AlmacenesModule,
+  ChoferesModule,
+  CiasModule,
+  TalleresModule,
+  MarcasvehModule,
+  ZonasModule,
+  CombustModule,
+  PrecioscombModule,
+  CiudadesModule,
+  EstadosModule,
+  VehiculosModule,
+  ServmantosModule,
+  UsuariosModule,
+  PoligasModule,
+  RenpogasModule,
+  PoliservModule,
+  RenposervModule,
+  AccesoriosModule,
+  InformecombModule,
+  CiasedoctaModule,
+  InformeservModule,
+  InformeacumModule,
+  InvenModule,
+  KardexModule,
+
+]
 
 const {
   TYPE,
@@ -87,7 +115,7 @@ const {
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
         ServMantos, ServmantosxVehiculo, Usuarios, Poligas, Renpogas, 
         Poliserv, Renposerv, Ciasedocta, Inven, Kardex, Exist, Series,
-         join(__dirname, './**/**/*entity{.ts,.js}')],
+         join(__dirname, './**/**/*entity*{.ts,.js}')],
       synchronize: true,
     }),
     AlmacenesModule,
@@ -114,6 +142,7 @@ const {
     InformeacumModule,
     InvenModule,
     KardexModule,
+    ImprikardexModule,
     ],
   controllers: [AppController],
   providers: [AppService],

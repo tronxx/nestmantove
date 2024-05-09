@@ -34,6 +34,16 @@ export class InvenController {
         return this.invenService.getManyCiaLike(cia, codigo);
     }
 
+    @Get(':cia/:id/:codigo/:hacia')
+    getSigteAnter(
+        @Param('cia') cia: number,
+        @Param('id') id: number,
+        @Param('codigo') codigo: string,
+        @Param('hacia') hacia: string,
+    ) {
+        return this.invenService.getSigteAnter(cia, codigo, hacia);
+    }
+
     @Post()
     async createOne(
         @Body() dto: CreateInvenDto

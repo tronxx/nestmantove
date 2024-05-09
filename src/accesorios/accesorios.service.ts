@@ -55,6 +55,21 @@ export class AccesoriosService {
     )
     {}
 
+    async obtenerFechayHora(): Promise<any> {
+      // Obtener el valor más reciente de prelit para el idcombust y la fecha dada
+      const fecha = new Date()
+      const fechayhora = fecha.toISOString()
+      return fechayhora
+  
+      // if (precios && precios.length > 0) {
+      //   return precios[0].prelit;
+      // } else {
+      //   return 0; // Si no se encuentra un valor, devolver 0 o el valor que consideres apropiado
+      // }
+    }
+  
+
+
     async obtenerValorMasReciente(idcombust: number, fecha: string): Promise<any> {
         // Obtener el valor más reciente de prelit para el idcombust y la fecha dada
         const precios = await this.PrecioscombRepository.find({

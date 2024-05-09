@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { CreateKardexDto, EditKardexDto, CreateExistDto, EditExistDto, CreateSeriesDto } from './dtos';
 import { Kardex, Exist, Series } from './entities';
+import { Almacenes } from 'src/almacenes/entities';
 
 @Injectable()
 export class KardexService {
@@ -13,8 +14,10 @@ export class KardexService {
         private readonly KardexRepository: Repository<Kardex>,
         @InjectRepository(Series)
         private readonly SeriesRepository: Repository<Series>,
+        @InjectRepository(Almacenes)
+        private readonly AlmacenesRepository: Repository<Almacenes>,
         @InjectRepository(Exist)
-        private readonly ExistRepository: Repository<Exist>
+        private readonly ExistRepository: Repository<Exist>,
     )
     {}
 
@@ -22,7 +25,7 @@ export class KardexService {
         return await this.KardexRepository.find();
     }
 
-    async getManyCia(cia:number, idalm:number, idart:number) :Promise <Kardex[]>  {
+    async getManyCia(cia:number, idalm:number, idart:number) :Promise <any[]>  {
         const query = await this.KardexRepository.createQueryBuilder('a')
         .select(['a.*','b.serie as serie'])
         //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
@@ -30,7 +33,7 @@ export class KardexService {
         .where("a.idalm = :idalm ", {idalm:idalm})
         .andWhere("a.idart = :idart ", {idart:idart})
         .andWhere("a.cia = :cia ", {cia:cia})
-        .orderBy( {fecha: 'ASC', folio:'ASC'})
+        .orderBy( {fecha: 'DESC', folio:'DESC'})
         const respu =  await query.getRawMany();
         //console.log(query.getSql(), "respu:", respu);
         return (respu);
@@ -53,6 +56,32 @@ export class KardexService {
             }
         );
     }
+
+    async getManyCiaxFecha(cia:number, idalm:number, idart:number, fechaini: string, fechafin: string) :Promise <any[]>  {
+        const query = await this.KardexRepository.createQueryBuilder('a')
+        .select(['a.*','b.serie as serie'])
+        //.innerJoinAndSelect(Marcasveh, 'b', 'a.idmarcaveh = b.id')
+        .leftJoin(Series, 'b', 'a.idserie = b.id')
+        .where("a.idalm = :idalm ", {idalm:idalm})
+        .andWhere("a.idart = :idart ", {idart:idart})
+        .andWhere("a.cia = :cia ", {cia:cia})
+        .andWhere("(a.fecha between :fechaini and :fechafin \
+            or a.fechasale between :fechaini and :fechafin)", 
+            {fechaini, fechafin})
+        .orderBy( {fecha: 'DESC', folio:'DESC'})
+        const respu =  await query.getRawMany();
+        //console.log(query.getSql(), "respu:", respu);
+        return (respu);
+
+        return await this.KardexRepository.find(
+            {
+                where: { idalm:idalm, idart:idart, cia : cia},
+                order: { fecha: "ASC"}
+            }
+        );
+    }
+
+
 
     async getOne(id: number) : Promise<Kardex> {
         const Kardex = await this.KardexRepository.findOneBy({id});
