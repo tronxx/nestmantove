@@ -84,8 +84,12 @@ export class AccesoriosController {
     }
 
     async obtenerFechayHora() {
-        const fecha = new Date().toISOString();
-        return {fecha: fecha}
+        const fecha = new Date();
+        console.log("Ya obtuve la fecha", fecha)
+        const fechayhora = fecha.toISOString();
+        return {fecha: fecha,
+            fechayhora: fechayhora
+        }
     }
 
 

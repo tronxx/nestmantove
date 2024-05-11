@@ -56,10 +56,15 @@ export class AccesoriosService {
     {}
 
     async obtenerFechayHora(): Promise<any> {
-      // Obtener el valor más reciente de prelit para el idcombust y la fecha dada
+      console.log("Voy a tomar la fecha")
       const fecha = new Date()
+      console.log("la fecha es:", fecha)
       const fechayhora = fecha.toISOString()
-      return fechayhora
+      console.log("la fecha en string es:", fechayhora)
+      return {
+        fechayhora: fechayhora,
+        fecha: fecha
+      }
   
       // if (precios && precios.length > 0) {
       //   return precios[0].prelit;
