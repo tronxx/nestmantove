@@ -9,6 +9,7 @@ import path = require('path');
 import { Observable, of } from 'rxjs';
 import { join } from 'path';
 import { Vehiculos } from 'src/vehiculos/entities';
+import * as moment from 'moment-timezone';
 
 @ApiTags('accesorios')
 @Controller('accesorios')
@@ -84,11 +85,9 @@ export class AccesoriosController {
     }
 
     async obtenerFechayHora() {
-        const fecha = new Date();
-        console.log("Ya obtuve la fecha", fecha)
-        const fechayhora = fecha.toISOString();
-        return {fecha: fecha,
-            fechayhora: fechayhora
+        const fecha = moment().tz('America/Mexico_City').format();
+        return {
+            fecha: fecha
         }
     }
 
