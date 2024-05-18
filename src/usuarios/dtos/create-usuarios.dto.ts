@@ -1,4 +1,4 @@
-import { IsNumber, IsInt, IsString, IsEmail } from "class-validator";
+import { IsNumber, IsInt, IsString, IsEmail, MaxLength, MinLength } from "class-validator";
 
 export class CreateUsuariosDto {
 
@@ -12,6 +12,8 @@ export class CreateUsuariosDto {
     email: string;
 
     @IsString()
+    @MinLength(4)
+    @MaxLength(20)
     clave: string;
 
     @IsString()

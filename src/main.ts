@@ -2,10 +2,23 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { initSwagger } from './app.swagger';
-import { join } from 'path';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+import { join } from 'path';
+import * as fs from 'fs';
+
+
+async function bootstrap() {const httpsOptions = {
+  key: fs.readFileSync('./secrets/privkey.pem'),
+  cert: fs.readFileSync('./secrets/cert.pem'),
+ };
+ 
+  const app = await NestFactory.create(AppModule, {
+   httpsOptions,
+  }
+  );
+ 
+
+//  const app = await NestFactory.create(AppModule);
 //  const options = {
 //    "origin": "*",
 //    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",

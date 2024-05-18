@@ -1,12 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuariosDto, EditUsuariosDto } from './dtos'
+import { JwtAuthGuard } from './jwt-auth.guard';
 
+@ApiBearerAuth()
 @ApiTags('usuarios')
 @Controller('usuarios')
 export class UsuariosController {
     constructor (private readonly usuariosService: UsuariosService) {}
+
+
+    @UseGuards(JwtAuthGuard)
     @Get(':cia')
     async getMany(
         @Param('cia') cia: number
@@ -14,6 +19,7 @@ export class UsuariosController {
         return await this.usuariosService.getMany(cia);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':cia/:id')
     getOne(
         @Param('cia') cia: number,
@@ -24,6 +30,7 @@ export class UsuariosController {
 
     @Get(':cia/:login/:password')
     getbylogin(
+        @Param('cia') cia: number,
         @Param('login') login: string,
         @Param('password') pwd: string
     ) {
@@ -46,6 +53,7 @@ export class UsuariosController {
         return this.usuariosService.createOne(dto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Put(':id')
     editOne(
         @Param('id') id: number,
@@ -54,6 +62,7 @@ export class UsuariosController {
         return this.usuariosService.editOne(id, dto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     deletOne(@Param('id') id: number) {
         return this.usuariosService.deleteOne(id);
