@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { KardexService } from './kardex.service';
 import { CreateKardexDto, EditKardexDto } from './dtos';
+import { JwtAuthGuard } from  '../usuarios/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('kardex')
 @Controller('kardex')
 export class KardexController {
