@@ -13,11 +13,14 @@ import { CiaService } from '../cias/cias.service';
 
 @Module({
   imports:[
-    TypeOrmModule.forFeature([Exist, Kardex, Series, Inven, Almacenes, Cia])
+    TypeOrmModule.forFeature([
+      Exist, Kardex, Series, Inven, Almacenes, Cia,
+      
+    ])
  ],
 
  providers: [KardexService, ImprikardexService, 
-  InvenService, AlmacenesService, CiaService,
+  InvenService, AlmacenesService, CiaService
 ],
 
   controllers: [ImprikardexController]

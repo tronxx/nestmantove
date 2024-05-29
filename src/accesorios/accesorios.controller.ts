@@ -85,12 +85,7 @@ export class AccesoriosController {
     }
 
     async obtenerFechayHora() {
-        let fecha = moment().tz('America/Mexico_City').format();
-        fecha = fecha.replace("T",":");
-        return {
-            fecha: fecha,
-            fechayhora: fecha
-        }
+        return await this.accesoriosService.obtenerFechayHora();
     }
 
 

@@ -6,6 +6,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 import * as fs from 'fs';
 import * as PdfPrinter from 'pdfmake';
+import * as moment from 'moment-timezone';
 
 import { MAX } from 'class-validator';
 import { Precioscomb } from '../precioscomb/entities';
@@ -56,21 +57,13 @@ export class AccesoriosService {
     {}
 
     async obtenerFechayHora(): Promise<any> {
-      console.log("Voy a tomar la fecha")
-      const fecha = new Date()
-      console.log("la fecha es:", fecha)
-      const fechayhora = fecha.toISOString()
-      console.log("la fecha en string es:", fechayhora)
+      let fecha = moment().tz('America/Mexico_City').format();
+      fecha = fecha.replace("T",":");
       return {
-        fechayhora: fechayhora,
-        fecha: fecha
+          fecha: fecha,
+          fechayhora: fecha
       }
-  
-      // if (precios && precios.length > 0) {
-      //   return precios[0].prelit;
-      // } else {
-      //   return 0; // Si no se encuentra un valor, devolver 0 o el valor que consideres apropiado
-      // }
+
     }
   
 

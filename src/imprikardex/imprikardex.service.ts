@@ -6,6 +6,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 import * as fs from 'fs';
 import * as PdfPrinter from 'pdfmake';
+import * as moment from 'moment-timezone';
 
 import { MAX } from 'class-validator';
 import { InvenService } from '../inven/inven.service';
@@ -14,9 +15,8 @@ import { Kardex, Exist, Series } from '../kardex/entities';
 import { Inven } from '../inven/entities';
 import { Cia } from '../cias/entities';
 import { Almacenes } from '../almacenes/entities';
-import { KardexService } from 'src/kardex/kardex.service';
-import { CiaService } from 'src/cias/cias.service';
-
+import { KardexService } from '../kardex/kardex.service';
+import { CiaService } from  '../cias/cias.service';
 
 @Injectable()
 export class ImprikardexService {
@@ -44,10 +44,14 @@ export class ImprikardexService {
         const kardex = await this.kardexSerivce.getManyCiaxFecha(cia, idalm, idart, fechaini, fechafin);
         let html = "";
 
+        const logo = '<img src="images/logochico.png">';
+        let fechayhora = moment().tz('America/Mexico_City').format();
+        fechayhora = fechayhora.replace("T",":");
+  
         const datospoliza = "Kardex de :" + prod.codigo + " " +  
           prod.descri + " Almacén:" + alm.clave + " "  + alm.nombre +
           " Del " + fechaini + " Al " + fechafin;
-          html = "<html><body>" + datospoliza;
+          html = "<html><body> " +  "<br>" + datospoliza;
           let encab = [
             'Fecha',
             'Documento',
@@ -63,26 +67,17 @@ export class ImprikardexService {
           }
           html += "</tr>";
 
-          
-        let body = 
-        [
+        let body = [
           [
-            'Fecha',
-            'Documento',
-            'Folio',
-            'Serie',
-            'Concepto',
-            'Fecha Sale',
-            'Concepto'
+          'Fecha',
+          'Documento',
+          'Folio',
+          'Serie',
+          'Concepto',
+          'Fecha Sale',
+          'Concepto'
           ]
         ];
-        let totales = {
-          recorre: 0,
-          litros: 0,
-          total:0,
-          rendto: 0
-
-        }
           
         for(let item of kardex) {
           const total = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(0)
@@ -99,15 +94,15 @@ export class ImprikardexService {
 
 
           const renglon = [
-              fechamov,
-              item.docto.toString(),
-              item.folio.toString(),
-              item.serie,
-              item.descri,
-              fechasale,
-              descrisale
-            ];
-            html += "<tr>";
+            fechamov,
+            item.docto.toString(),
+            item.folio.toString(),
+            item.serie,
+            item.descri,
+            fechasale,
+            descrisale
+          ];
+          html += "<tr>";
             for (let col of renglon) {
                 html += "<td>" + col + "</td>"
             }
@@ -140,7 +135,7 @@ export class ImprikardexService {
           content: [
             { text: datoscia.razon, fontSize: 14, alignment: 'center'},
             { text: datoscia.direc, fontSize: 14, alignment: 'center'},
-            { text: datospoliza, fontSize: 10},
+            { text: fechayhora + " " + datospoliza, fontSize: 9},
             
             {
               layout: 'lightHorizontalLines', // optional
