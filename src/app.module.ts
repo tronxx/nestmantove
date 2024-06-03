@@ -56,6 +56,7 @@ import { Inven } from './inven/entities';
 import { KardexModule } from './kardex/kardex.module';
 import { Exist, Kardex, Series } from './kardex/entities';
 import { ImprikardexModule } from './imprikardex/imprikardex.module';
+import { SeriesinvenModule } from './seriesinven/seriesinven.module';
 config();
 // const   
 //TYPE='mysql',
@@ -143,6 +144,7 @@ const {
     InvenModule,
     KardexModule,
     ImprikardexModule,
+    SeriesinvenModule,
     ],
   controllers: [AppController],
   providers: [AppService],

@@ -100,4 +100,37 @@ export class InvenService {
         return await this.invenRepository.save(inven);
 
     }
+
+    async actualizaCatalogo(dto: CreateInvenDto[]) {
+        let productosagregados  = [];
+        let productosmodificados = [];
+        for(let producto of dto) {
+            let codigo = producto.codigo;
+            let cia = producto.cia;
+            const xinven = await this.invenRepository.findOneBy({codigo, cia});
+            if(!xinven) {
+                const inven = this.invenRepository.create(producto);
+                const nvoproducto = await this.invenRepository.save(inven);
+                productosagregados.push(nvoproducto);
+            } else {
+                if(xinven.descri != producto.descri 
+                    || xinven.tipo != producto.tipo   
+                    || xinven.costos != producto.costos
+                    || xinven.preciou != producto.preciou
+                ) {
+                    const editedInven = Object.assign(xinven, producto);
+                    const id = xinven.id;
+                    const productomodificado =  await this.invenRepository.update(id, editedInven);
+                    productosmodificados.push(productomodificado);
+                }
+            }
+        }
+        return {
+            agregados: productosagregados,
+            modificados: productosmodificados
+        };
+
+    }
+
+
 }

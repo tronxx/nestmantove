@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { KardexService } from './kardex.service';
 import { CreateKardexDto, EditKardexDto } from './dtos';
 import { JwtAuthGuard } from  '../usuarios/jwt-auth.guard';
@@ -39,6 +39,7 @@ export class KardexController {
         return this.kardexService.getLastFolio(idart, idalm);
     }
 
+    @ApiBearerAuth()
     @Post()
     async createOne(
         @Body() dto: CreateKardexDto
@@ -46,6 +47,7 @@ export class KardexController {
         return this.kardexService.createOne(dto);
     }
 
+    @ApiBearerAuth()
     @Put(':id')
     editOne(
         @Param('id') id: number,
@@ -54,6 +56,7 @@ export class KardexController {
         return this.kardexService.editOne(id, dto);
     }
 
+    @ApiBearerAuth()
     @Delete(':id')
     deletOne(@Param('id') id: number) {
         return this.kardexService.deleteOne(id);
