@@ -16,7 +16,7 @@ export class Series {
     @Column({type: 'varchar', length:100})
     serie: string;
 
-    @Column({type: 'integer'})
+    @Column({type: 'integer',  default:1})
     cia: number;
 
     @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
