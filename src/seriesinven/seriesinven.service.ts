@@ -65,10 +65,8 @@ export class SeriesinvenService {
                 const nuevaserie = await this.seriesRepository.save(miserie);
                 resultado.push(nuevaserie);
             }
-            return resultado;
-    
         }
+        return resultado;
     }
 
-    
 }
