@@ -40,22 +40,22 @@ export class Inven {
     @Column({type: 'double precision'})
     costos: number;
 
-    @Column({type: 'varchar', length:1})
+    @Column({type: 'varchar', length:1, default:'A'})
     status: string;
 
-    @Column({type: 'integer'})
+    @Column({type: 'integer', default:0})
     inicial: number;
 
-    @Column({type: 'integer'})
+    @Column({type: 'integer', default:0})
     entran: number;
 
-    @Column({type: 'integer'})
+    @Column({type: 'integer', default:0})
     salen: number;
 
-    @Column({type: 'integer'})
+    @Column({type: 'integer', default:0})
     exist: number;
 
-    @Column({type: 'integer'})
+    @Column({type: 'integer', default:1})
     cia: number;
 
     @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })

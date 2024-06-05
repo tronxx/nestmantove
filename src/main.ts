@@ -2,16 +2,25 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { initSwagger } from './app.swagger';
+import { config } from "dotenv";
 
 import { join } from 'path';
 import * as fs from 'fs';
+config();
 
+const {
+  PRODUCTION,
+} = process.env
 
 async function bootstrap() {
-  const httpsOptions = {
-    key: fs.readFileSync('./secrets/privkey.pem'),
-    cert: fs.readFileSync('./secrets/cert.pem'),
-  };
+  let httpsOptions = {};
+  console.log("Production:", PRODUCTION);
+  if(PRODUCTION=='true') {
+    httpsOptions = {
+      key: fs.readFileSync('./secrets/privkey.pem'),
+      cert: fs.readFileSync('./secrets/cert.pem'),
+    };
+  }
  
   const app = await NestFactory.create(AppModule, {
    httpsOptions,

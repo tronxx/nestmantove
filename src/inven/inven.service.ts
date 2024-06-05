@@ -109,7 +109,12 @@ export class InvenService {
             let cia = producto.cia;
             const xinven = await this.invenRepository.findOneBy({codigo, cia});
             if(!xinven) {
-                const inven = this.invenRepository.create(producto);
+                let inven = this.invenRepository.create(producto);
+                inven.status = 'A';
+                inven.entran = 0;
+                inven.salen = 0;
+                inven.exist = 0;
+                inven.inicial = 0;
                 const nvoproducto = await this.invenRepository.save(inven);
                 productosagregados.push(nvoproducto);
             } else {
