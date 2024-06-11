@@ -9,9 +9,9 @@ import {
     UpdateDateColumn
   } from 'typeorm';
 
-@Entity('chofer')
+@Entity('vendedores')
 @Unique(['codigo', 'cia'])
-export class Chofer {
+export class Vendedor {
     @PrimaryGeneratedColumn()
     id: number;
 

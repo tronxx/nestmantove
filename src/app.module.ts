@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlmacenesModule } from './almacenes/almacenes.module';
 import { AlmacenesController } from './almacenes/almacenes.controller';
-import { AlmacenesService } from './almacenes/almacenes.service';
 import { Almacenes } from './almacenes/entities';
 import { ChoferesModule } from './choferes/choferes.module';
 import { Chofer } from './choferes/entities';
@@ -57,6 +56,10 @@ import { KardexModule } from './kardex/kardex.module';
 import { Exist, Kardex, Series } from './kardex/entities';
 import { ImprikardexModule } from './imprikardex/imprikardex.module';
 import { SeriesinvenModule } from './seriesinven/seriesinven.module';
+import { ClientesModule } from './clientes/clientes.module';
+import { Cliente } from './clientes/entities';
+import { VendedoresModule } from './vendedores/vendedores.module';
+import { Vendedor } from './vendedores/entities';
 config();
 // const   
 //TYPE='mysql',
@@ -116,6 +119,7 @@ const {
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
         ServMantos, ServmantosxVehiculo, Usuarios, Poligas, Renpogas, 
         Poliserv, Renposerv, Ciasedocta, Inven, Kardex, Exist, Series,
+        Cliente, Vendedor,
          join(__dirname, './**/**/*entity*{.ts,.js}')],
       synchronize: true,
     }),
@@ -145,6 +149,8 @@ const {
     KardexModule,
     ImprikardexModule,
     SeriesinvenModule,
+    ClientesModule,
+    VendedoresModule,
     ],
   controllers: [AppController],
   providers: [AppService],
