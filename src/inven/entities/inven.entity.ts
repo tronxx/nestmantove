@@ -58,6 +58,9 @@ export class Inven {
     @Column({type: 'integer', default:1})
     cia: number;
 
+    @Column({type: 'integer', default:1})
+    idcatsat: number;
+
     @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
     updateAt: Date;
 

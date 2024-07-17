@@ -60,6 +60,8 @@ import { ClientesModule } from './clientes/clientes.module';
 import { Cliente } from './clientes/entities';
 import { VendedoresModule } from './vendedores/vendedores.module';
 import { Vendedor } from './vendedores/entities';
+import { ProveedoresModule } from './proveedores/proveedores.module';
+import { Proveedor } from './proveedores/entities';
 config();
 // const   
 //TYPE='mysql',
@@ -119,7 +121,7 @@ const {
         Zonas, Combust, Precioscomb, Ciudades, Estados, Vehiculos,
         ServMantos, ServmantosxVehiculo, Usuarios, Poligas, Renpogas, 
         Poliserv, Renposerv, Ciasedocta, Inven, Kardex, Exist, Series,
-        Cliente, Vendedor,
+        Cliente, Vendedor, Proveedor,
          join(__dirname, './**/**/*entity*{.ts,.js}')],
       synchronize: true,
     }),
@@ -151,6 +153,7 @@ const {
     SeriesinvenModule,
     ClientesModule,
     VendedoresModule,
+    ProveedoresModule,
     ],
   controllers: [AppController],
   providers: [AppService],

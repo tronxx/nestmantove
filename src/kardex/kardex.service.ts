@@ -192,6 +192,7 @@ export class KardexService {
         let cia = dto.cia;
         let idalm = dto.idalm;
         let idart = dto.idart;
+        if(dto.fechasale == '') { dto.fechasale = null; }
         const serie = await this.buscaIdSerie(dto.serie);
         dto.idserie = serie.id;
         const Kardex = this.KardexRepository.create(dto);
