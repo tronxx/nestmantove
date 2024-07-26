@@ -31,7 +31,7 @@ export class Exist {
     @Column({type: 'integer'})
     exist: number;
 
-    @Column({type: 'varchar', length:1})
+    @Column({type: 'varchar', length:1, nullable:true, default:'A'})
     status: string;
 
     @Column({type: 'integer'})

@@ -12,6 +12,7 @@ const {
   PRODUCTION,
 } = process.env
 
+let app = null;
 async function bootstrap() {
   let httpsOptions = {};
   console.log("Production:", PRODUCTION);
@@ -20,12 +21,15 @@ async function bootstrap() {
       key: fs.readFileSync('./secrets/privkey.pem'),
       cert: fs.readFileSync('./secrets/cert.pem'),
     };
+    app = await NestFactory.create(AppModule, {
+      httpsOptions,
+     });
+   
+  } else {
+    app = await NestFactory.create(AppModule);
+
   }
  
-  const app = await NestFactory.create(AppModule, {
-   httpsOptions,
-  }
-  );
  
 
 //  const app = await NestFactory.create(AppModule);
