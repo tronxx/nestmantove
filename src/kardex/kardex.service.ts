@@ -159,6 +159,7 @@ export class KardexService {
             miexist.inicial=0;
             miexist.exist=0;
             miexist.cia=cia;
+            miexist.status='A';
             miexist.idart = idart;
             miexist.idalm = idalm;
         }
