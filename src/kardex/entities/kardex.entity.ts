@@ -22,7 +22,7 @@ export class Kardex {
     @Column({type: 'integer'})
     docto: number;
 
-    @Column({type: 'date'})
+    @Column({type: 'date' , nullable: true, default: null })
     fecha: string;
 
     @Column({type: 'integer'})
@@ -40,7 +40,7 @@ export class Kardex {
     @Column({type: 'double precision'})
     costou: number;
 
-    @Column({type: 'varchar', length:1})
+    @Column({type: 'varchar', length:1, default: 'A' })
     status: string;
 
     @Column({type: 'varchar', length:1})
@@ -49,7 +49,7 @@ export class Kardex {
     @Column({type: 'varchar', length:100})
     descrisale: string;
 
-    @Column({type: 'date'})
+    @Column({type: 'date' , nullable: true, default: null })
     fechasale: string;
 
     @Column({type: 'integer'})
