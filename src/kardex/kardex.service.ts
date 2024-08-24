@@ -117,9 +117,9 @@ export class KardexService {
                 dtoCreate.canti = dtoCreate.canti * -1;
             }
             let entraosale = "S";
-            if(dto.fechasale == '') { dto.fechasale = null; }
             const exist = this.updateexist(dtoCreate, entraosale);
         }
+        if(dto.salio != "S") { dto.fechasale = null; }
         const editedKardex = Object.assign(Kardex, dto);
         return await this.KardexRepository.update(id, editedKardex);
 
